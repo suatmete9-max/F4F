@@ -4,7 +4,7 @@ import os
 from flask import Flask
 
 # Yahan apna Bot Token daalein
-TOKEN = 'YAHAN_APNA_BOT_TOKEN_DAALEIN'
+TOKEN = '8808458591:AAGzWBqixE7fzX5WurWETaZ_MWt6zf6tYo0'
 bot = telebot.TeleBot(TOKEN)
 app = Flask(__name__)
 
