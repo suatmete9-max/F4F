@@ -13,10 +13,9 @@ app = Flask(__name__)
 # Aapke Render server ka link
 MINI_APP_URL = 'https://f4f.onrender.com/miniapp'
 
-# Group tracking for 2-hour ads
 active_groups = set()
 
-# --- 1. TELEGRAM SIDEBAR MENU SETUP ---
+# --- 1. TELEGRAM SIDEBAR MENU SETUP (Sirf Side Menu) ---
 commands = [
     BotCommand("start", "🚀 Start & Open App"),
     BotCommand("tasks", "☑️ Complete Tasks"),
@@ -47,25 +46,26 @@ def promo_cmd(message):
 def help_cmd(message):
     bot.send_message(message.chat.id, "📞 **Support & Help:**\nKisi bhi madad ke liye admin ko message karein: 👉 @Loverschoice786")
 
-
-# --- 3. SUB4SUB GROUP LOGIC (Welcome & Rules in Hinglish & English) ---
+# --- 3. SUB4SUB GROUP LOGIC ---
 @bot.message_handler(content_types=['new_chat_members'])
 def welcome_new_member(message):
     active_groups.add(message.chat.id)
     for new_member in message.new_chat_members:
+        # Khud bot add hone par message na bheje
+        if new_member.id == bot.get_me().id:
+            continue
+            
         user_name = new_member.first_name
         text = f"Welcome {user_name}! 👋\n\n"
         text += "🔥 **Group Rules (Sub4Sub):**\n\n"
-        text += "🇮🇳 **Hinglish:** Group member list mein check karein jo log ONLINE hain unhe direct message (DM) karein aur bolein: 'Mera channel join karo, main aapka karunga'.\n\n"
+        text += "🇮🇳 **Hinglish:** Group member list mein check karein jo log ONLINE hain unhe DM karein: 'Mera channel join karo, main aapka karunga'.\n\n"
         text += "🇬🇧 **English:** Check the group member list, DM the users who are ONLINE, and ask: 'Join my channel and I will join yours'.\n\n"
-        text += "💰 **Free USDT Earn Karein / Earn Free USDT:**\n"
-        text += "Niche button par click karke Tasks poore karein aur paise kamayein 👇"
+        text += "💰 **Earn Free USDT:**\nNiche button par click karke Tasks poore karein 👇"
         
         markup = InlineKeyboardMarkup()
         markup.add(InlineKeyboardButton(text="🌟 Earn Free USDT", web_app=WebAppInfo(url=MINI_APP_URL)))
         bot.send_message(message.chat.id, text, reply_markup=markup)
 
-# Har 2 ghante mein Group Ad
 def send_ads_every_2_hours():
     while True:
         time.sleep(7200) # 2 hours
@@ -78,8 +78,7 @@ def send_ads_every_2_hours():
             except Exception:
                 pass
 
-
-# --- 4. ADVANCED BEAUTIFUL MINI APP ---
+# --- 4. ADVANCED MINI APP (No AdsGram, Banner on Every Page) ---
 HTML_PAGE = """
 <!DOCTYPE html>
 <html lang="en">
@@ -89,7 +88,6 @@ HTML_PAGE = """
     <title>Premium Tasks App</title>
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     
     <style>
         body {
@@ -138,21 +136,22 @@ HTML_PAGE = """
 <body>
 
     <div class="main-content">
+        <!-- GLOBAL BANNER (Har page par dikhega) -->
+        <div class="aads-container">
+            <!-- BEGIN AADS AD UNIT 2456598 -->
+            <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998; margin-top: 5px;">
+              <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive'
+                      style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
+            </div>
+            <!-- END AADS AD UNIT 2456598 -->
+        </div>
+
         <!-- HOME TAB -->
         <div id="home-tab" class="tab-section active">
             <div class="glass-card">
                 <div style="font-size: 14px; color: #666; font-weight: bold;">TOTAL BALANCE</div>
                 <div class="balance-amount" id="balanceDisplay">0.00 <span style="font-size: 20px;">USDT</span></div>
                 <button class="task-btn" style="width: 100%; margin-top: 10px; padding: 15px;" onclick="withdraw()">Withdraw Funds (Min $3)</button>
-            </div>
-            
-            <div class="aads-container">
-                <!-- BEGIN AADS AD UNIT 2456598 -->
-                <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998; margin-top: 15px;">
-                  <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive'
-                          style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
-                </div>
-                <!-- END AADS AD UNIT 2456598 -->
             </div>
         </div>
 
@@ -206,34 +205,30 @@ HTML_PAGE = """
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
 
-        // 🖼️ DYNAMIC BEAUTIFUL BACKGROUNDS (Different for each tab)
+        // 🖼️ DYNAMIC BEAUTIFUL BACKGROUNDS
         const backgrounds = {
             'home-tab': 'url("https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80")', // Paris Cityscape
             'tasks-tab': 'url("https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80")', // Swiss Alps Lake
             'referrals-tab': 'url("https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80")', // Santorini Greece
             'settings-tab': 'url("https://images.unsplash.com/photo-1542051812871-757508122268?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80")' // Kyoto Japan
         };
-        
-        // Initial Background
         document.body.style.backgroundImage = backgrounds['home-tab'];
 
         const REWARD = 0.05;
         const MIN_WITHDRAW = 3.00;
         const COOLDOWN_MS = 2 * 60 * 60 * 1000;
-        const ADSGRAM_BLOCK = "50267";
+        
         const ADSTERRA_LINK = "https://www.profitableratecpmnetwork.com/de868ezg?key=8b85fb3adea19f8ec85c709bba7de919";
         const MONETAG_LINK = "https://omg10.com/4/11851710";
-        
-        let AdController = null;
-        try { AdController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK }); } catch(e) {}
 
+        // Sirf link wale tasks rakhe gaye hain (AdsGram removed)
         const tasksData = [
-            { id: 1, title: "Premium Sponsor Ad 1", type: "link", url: ADSTERRA_LINK },
-            { id: 2, title: "High Yield Ad 1", type: "link", url: MONETAG_LINK },
-            { id: 3, title: "Video Reward Ad 1", type: "adsgram", url: "" },
-            { id: 4, title: "Premium Sponsor Ad 2", type: "link", url: ADSTERRA_LINK },
-            { id: 5, title: "High Yield Ad 2", type: "link", url: MONETAG_LINK },
-            { id: 6, title: "Video Reward Ad 2", type: "adsgram", url: "" }
+            { id: 1, title: "Premium Sponsor Ad 1", url: ADSTERRA_LINK },
+            { id: 2, title: "High Yield Ad 1", url: MONETAG_LINK },
+            { id: 3, title: "Premium Sponsor Ad 2", url: ADSTERRA_LINK },
+            { id: 4, title: "High Yield Ad 2", url: MONETAG_LINK },
+            { id: 5, title: "Premium Sponsor Ad 3", url: ADSTERRA_LINK },
+            { id: 6, title: "High Yield Ad 3", url: MONETAG_LINK }
         ];
 
         let balance = parseFloat(localStorage.getItem('f4f_balance')) || 0.00;
@@ -254,7 +249,7 @@ HTML_PAGE = """
                         <h4>${task.title}</h4>
                         <p>+$0.05 USDT</p>
                     </div>
-                    <button class="task-btn" id="btn_${task.id}" onclick="startTask(${task.id}, '${task.type}', '${task.url}')">Watch</button>
+                    <button class="task-btn" id="btn_${task.id}" onclick="startTask(${task.id}, '${task.url}')">Watch</button>
                 </div>
             `;
         });
@@ -281,25 +276,12 @@ HTML_PAGE = """
         setInterval(checkCooldowns, 10000);
         checkCooldowns();
 
-        function startTask(id, type, url) {
+        function startTask(id, url) {
             let btn = document.getElementById('btn_' + id);
             btn.disabled = true;
             btn.innerText = "Wait 15s...";
-
-            if (type === 'link') {
-                window.open(url, '_blank');
-                setTimeout(() => { finishTask(id); }, 15000);
-            } else if (type === 'adsgram') {
-                if(AdController) {
-                    AdController.show().then(() => { finishTask(id); }).catch(() => {
-                        btn.disabled = false; btn.innerText = "Watch";
-                        window.Telegram.WebApp.showAlert("You closed the ad early!");
-                    });
-                } else {
-                    window.Telegram.WebApp.showAlert("AdsGram not ready. Try other tasks.");
-                    btn.disabled = false; btn.innerText = "Watch";
-                }
-            }
+            window.open(url, '_blank');
+            setTimeout(() => { finishTask(id); }, 15000);
         }
 
         function finishTask(id) {
@@ -346,7 +328,6 @@ HTML_PAGE = """
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             document.getElementById(navId).classList.add('active');
-            
             document.body.style.backgroundImage = backgrounds[tabId];
         }
     </script>
