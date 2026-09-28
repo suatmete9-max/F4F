@@ -72,20 +72,21 @@ def send_ads_every_2_hours():
                 pass
 
 
-# --- 3. CLEAN MINI APP CODE ---
+# --- 3. EXACT NUT WALLET WOOD THEME MINI APP ---
 HTML_PAGE = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Task Wallet</title>
+    <title>Nut Wallet</title>
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
         body {
             margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Exact Nut Wallet Nature/Wood Background Image */
             background: url('https://images.unsplash.com/photo-1511497584788-876760111969?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') no-repeat center center fixed;
             background-size: cover; color: #2e2e2e; display: flex; flex-direction: column; height: 100vh; overflow: hidden;
         }
@@ -94,19 +95,20 @@ HTML_PAGE = """
         .tab-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         
+        /* Nut Wallet Wood Theme Card */
         .wood-card {
-            background: rgba(255, 248, 220, 0.95); border: 3px solid #8B5A2B; border-radius: 18px;
-            padding: 18px; margin: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25); text-align: center;
+            background: rgba(255, 248, 220, 0.95); border: 3px solid #6d4c41; border-radius: 20px;
+            padding: 20px; margin: 15px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); text-align: center;
         }
-        .balance-amount { font-size: 38px; font-weight: bold; margin: 8px 0; color: #1e88e5; text-shadow: 1px 1px 0px rgba(0,0,0,0.1); }
+        .balance-amount { font-size: 40px; font-weight: bold; margin: 8px 0; color: #2e7d32; text-shadow: 1px 1px 0px rgba(0,0,0,0.1); }
         
         .task-card {
-            background: rgba(255, 255, 255, 0.96); border: 2px solid #8B5A2B; border-radius: 14px;
-            margin: 10px 15px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.96); border: 2px solid #6d4c41; border-radius: 14px;
+            margin: 10px 15px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         .task-info h4 { margin: 0; font-size: 15px; color: #3e2723; }
-        .task-info p { margin: 4px 0 0 0; font-size: 12px; color: #2e7d32; font-weight: bold; }
+        .task-info p { margin: 4px 0 0 0; font-size: 13px; color: #2e7d32; font-weight: bold; }
         
         .btn-wood {
             background: linear-gradient(135deg, #ffb74d 0%, #f57c00 100%);
@@ -116,12 +118,13 @@ HTML_PAGE = """
         .btn-wood:disabled { background: #d7ccc8; border-color: #a1887f; color: #795548; cursor: not-allowed; }
 
         input[type="text"] {
-            width: 90%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 2px solid #8B5A2B;
+            width: 90%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 2px solid #6d4c41;
             font-size: 14px; background: #fff; text-align: center;
         }
 
+        /* 100+ Live Withdrawal Ticker */
         .ticker-box {
-            background: rgba(44, 30, 22, 0.85); border: 2px solid #8B5A2B; border-radius: 14px;
+            background: rgba(62, 39, 35, 0.88); border: 2px solid #6d4c41; border-radius: 14px;
             margin: 15px; padding: 10px 15px; text-align: left; height: 55px; overflow: hidden; position: relative;
         }
         .ticker-title { font-size: 11px; color: #ffb74d; font-weight: bold; margin-bottom: 2px; text-transform: uppercase; }
@@ -134,15 +137,16 @@ HTML_PAGE = """
         .ticker-item.active { opacity: 1; transform: translateY(0); }
         .ticker-amount { color: #66bb6a; font-weight: bold; }
 
+        /* Nut Wallet Bottom Navigation */
         .bottom-nav {
-            display: flex; justify-content: space-around; background: #3e2723; border-top: 3px solid #8B5A2B;
-            padding: 8px 0; border-top-left-radius: 18px; border-top-right-radius: 18px;
+            display: flex; justify-content: space-around; background: #3e2723; border-top: 3px solid #6d4c41;
+            padding: 8px 0; border-top-left-radius: 20px; border-top-right-radius: 20px;
         }
         .nav-item { text-align: center; font-size: 10px; color: #d7ccc8; cursor: pointer; width: 20%; }
-        .nav-item.active { color: #64b5f6; font-weight: bold; }
+        .nav-item.active { color: #ffb74d; font-weight: bold; }
         .nav-icon { font-size: 18px; margin-bottom: 2px; }
         
-        .aads-container { margin: 10px 15px; text-align: center; border-radius: 12px; overflow: hidden; background: white; border: 2px solid #8B5A2B; }
+        .aads-container { margin: 10px 15px; text-align: center; border-radius: 12px; overflow: hidden; background: white; border: 2px solid #6d4c41; }
     </style>
 </head>
 <body>
@@ -153,10 +157,10 @@ HTML_PAGE = """
         <div id="home-tab" class="tab-section active">
             <div class="wood-card">
                 <div style="font-size: 13px; color: #5d4037; font-weight: bold;">TOTAL BALANCE</div>
-                <div class="balance-amount" id="balanceDisplay">0.00 <span style="font-size: 20px; color: #388e3c;">USDT</span></div>
+                <div class="balance-amount" id="balanceDisplay">0.00 <span style="font-size: 20px; color: #2e7d32;">USDT</span></div>
                 <div style="display: flex; gap: 10px; margin-top: 12px;">
                     <button class="btn-wood" style="flex: 1;" onclick="withdraw()">Withdraw ($3+)</button>
-                    <button class="btn-wood" style="flex: 1; background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%); border-color: #0d47a1;" onclick="switchTab('referrals-tab', 'nav-referrals')">Invite ($0.10)</button>
+                    <button class="btn-wood" style="flex: 1; background: linear-gradient(135deg, #66bb6a 0%, #2e7d32 100%); border-color: #1b5e20;" onclick="switchTab('referrals-tab', 'nav-referrals')">Invite ($0.10)</button>
                 </div>
             </div>
 
@@ -176,7 +180,10 @@ HTML_PAGE = """
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
             
-            <h3 style="margin: 15px; text-align: center; text-shadow: 1px 1px 2px black;">Complete Tasks ($0.05 Each)</h3>
+            <div class="wood-card" style="padding: 12px; margin-bottom: 5px;">
+                <h3 style="margin: 0; color: #3e2723;">Complete Tasks ($0.05 Each)</h3>
+                <p style="margin: 5px 0 0 0; font-size: 12px; color: #5d4037;">Finish tasks to get instant rewards!</p>
+            </div>
             <div id="tasks-container"></div>
         </div>
 
@@ -266,13 +273,13 @@ HTML_PAGE = """
         ];
 
         let balance = parseFloat(localStorage.getItem('f4f_balance')) || 0.00;
-        document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px; color: #388e3c;">USDT</span>';
+        document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px; color: #2e7d32;">USDT</span>';
         document.getElementById('walletInput').value = localStorage.getItem('f4f_wallet') || "";
 
         function updateBalance(amount) {
             balance += amount;
             localStorage.setItem('f4f_balance', balance.toFixed(2));
-            document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px; color: #388e3c;">USDT</span>';
+            document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px; color: #2e7d32;">USDT</span>';
         }
 
         const tasksContainer = document.getElementById('tasks-container');
@@ -396,7 +403,7 @@ HTML_PAGE = """
                 window.Telegram.WebApp.showAlert("Withdrawal request submitted successfully!");
                 balance -= MIN_WITHDRAW;
                 localStorage.setItem('f4f_balance', balance.toFixed(2));
-                document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px; color: #388e3c;">USDT</span>';
+                document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px; color: #2e7d32;">USDT</span>';
             }
         }
 
@@ -430,7 +437,7 @@ HTML_PAGE = """
 
 @app.route('/')
 def index():
-    return "Task Wallet Bot is Running!"
+    return "Nut Wallet Bot is Running!"
 
 @app.route('/miniapp')
 def render_miniapp():
