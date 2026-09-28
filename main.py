@@ -35,9 +35,9 @@ def handle_commands(message):
     elif cmd == '/help':
         bot.send_message(message.chat.id, "📞 **Support & Help:**\nFor any assistance, contact admin: 👉 @Loverschoice786")
     else:
-        text = f"Welcome {message.from_user.first_name}! 👋\nOpen the Task Wallet below to complete tasks and earn USDT 👇"
+        text = f"Welcome {message.from_user.first_name}! 👋\nOpen the Nut Wallet below to complete tasks and earn USDT 👇"
         markup = InlineKeyboardMarkup()
-        markup.add(InlineKeyboardButton(text="🌟 Open Task Wallet", web_app=WebAppInfo(url=MINI_APP_URL)))
+        markup.add(InlineKeyboardButton(text="🌰 Open Nut Wallet", web_app=WebAppInfo(url=MINI_APP_URL)))
         bot.send_message(message.chat.id, text, reply_markup=markup)
 
 
@@ -56,13 +56,13 @@ def welcome_new_member(message):
         text += "💰 **Earn Free USDT:**\nClick the button below to complete tasks and earn rewards 👇"
         
         markup = InlineKeyboardMarkup()
-        markup.add(InlineKeyboardButton(text="🌟 Earn Free USDT", web_app=WebAppInfo(url=MINI_APP_URL)))
+        markup.add(InlineKeyboardButton(text="🌰 Open Nut Wallet", web_app=WebAppInfo(url=MINI_APP_URL)))
         bot.send_message(message.chat.id, text, reply_markup=markup)
 
 def send_ads_every_2_hours():
     while True:
         time.sleep(7200)
-        ad_text = "📢 **Sponsored Global Tasks:**\n\nEarn free USDT without any investment. Open the app now 👇"
+        ad_text = "📢 **Sponsored Global Tasks:**\n\nEarn free USDT without any investment. Open Nut Wallet now 👇"
         markup = InlineKeyboardMarkup()
         markup.add(InlineKeyboardButton(text="💰 Watch Ads & Earn", web_app=WebAppInfo(url=MINI_APP_URL)))
         for chat_id in active_groups.copy():
@@ -72,7 +72,7 @@ def send_ads_every_2_hours():
                 pass
 
 
-# --- 3. EXACT NUT WALLET THEME MINI APP ---
+# --- 3. EXACT AUTHENTIC NUT WALLET WOODEN THEME MINI APP ---
 HTML_PAGE = """
 <!DOCTYPE html>
 <html lang="en">
@@ -86,45 +86,51 @@ HTML_PAGE = """
     <style>
         body {
             margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: url('https://images.unsplash.com/photo-1511497584788-876760111969?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') no-repeat center center fixed;
-            background-size: cover; color: #2e2e2e; display: flex; flex-direction: column; height: 100vh; overflow: hidden;
+            /* Exact Nut Wallet Nature Forest & Sunlight Background */
+            background: url('https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') no-repeat center center fixed;
+            background-size: cover; color: #3e2723; display: flex; flex-direction: column; height: 100vh; overflow: hidden;
         }
         .main-content { flex-grow: 1; overflow-y: auto; padding-bottom: 30px; }
-        .tab-section { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .tab-section { display: none; animation: fadeIn 0.3s ease-in-out; }
         .tab-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        .wood-card {
-            background: rgba(255, 248, 220, 0.95); border: 3px solid #6d4c41; border-radius: 20px;
-            padding: 20px; margin: 15px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); text-align: center;
+        /* Authentic Nut Wallet Wooden Board Card */
+        .nut-wood-card {
+            background: linear-gradient(135deg, #f5d6b0 0%, #d4a373 100%);
+            border: 4px solid #5c3a21; border-radius: 24px;
+            padding: 20px; margin: 15px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); text-align: center;
+            position: relative;
         }
-        .balance-amount { font-size: 40px; font-weight: bold; margin: 8px 0; color: #2e7d32; text-shadow: 1px 1px 0px rgba(0,0,0,0.1); }
+        .balance-amount { font-size: 38px; font-weight: bold; margin: 6px 0; color: #1b4d3e; text-shadow: 1px 1px 0px rgba(255,255,255,0.4); }
         
         .task-card {
-            background: rgba(255, 255, 255, 0.96); border: 2px solid #6d4c41; border-radius: 14px;
+            background: #fff8eb; border: 3px solid #6f4e37; border-radius: 16px;
             margin: 10px 15px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-        .task-info h4 { margin: 0; font-size: 15px; color: #3e2723; }
+        .task-info h4 { margin: 0; font-size: 15px; color: #3e2723; font-weight: bold; }
         .task-info p { margin: 4px 0 0 0; font-size: 13px; color: #2e7d32; font-weight: bold; }
         
-        .btn-wood {
-            background: linear-gradient(135deg, #ffb74d 0%, #f57c00 100%);
-            color: white; border: 2px solid #e65100; padding: 10px 18px; border-radius: 10px;
-            font-weight: bold; cursor: pointer; box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        .btn-nut {
+            background: linear-gradient(135deg, #588157 0%, #3a5a40 100%);
+            color: white; border: 2px solid #283618; padding: 10px 18px; border-radius: 12px;
+            font-weight: bold; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.3); text-transform: uppercase; font-size: 13px;
         }
-        .btn-wood:disabled { background: #d7ccc8; border-color: #a1887f; color: #795548; cursor: not-allowed; }
+        .btn-nut:disabled { background: #b0bec5; border-color: #78909c; color: #455a64; cursor: not-allowed; }
 
         input[type="text"] {
-            width: 90%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 2px solid #6d4c41;
-            font-size: 14px; background: #fff; text-align: center;
+            width: 90%; padding: 12px; margin: 10px 0; border-radius: 12px; border: 2px solid #6f4e37;
+            font-size: 14px; background: #fffdf9; text-align: center; color: #3e2723; font-weight: bold;
         }
 
+        /* Live Withdrawal Ticker Wood Box */
         .ticker-box {
-            background: rgba(62, 39, 35, 0.88); border: 2px solid #6d4c41; border-radius: 14px;
+            background: rgba(62, 39, 35, 0.92); border: 3px solid #5c3a21; border-radius: 16px;
             margin: 15px; padding: 10px 15px; text-align: left; height: 55px; overflow: hidden; position: relative;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
         }
-        .ticker-title { font-size: 11px; color: #ffb74d; font-weight: bold; margin-bottom: 2px; text-transform: uppercase; }
+        .ticker-title { font-size: 11px; color: #f4a261; font-weight: bold; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
         .ticker-container { height: 32px; overflow: hidden; position: relative; }
         .ticker-item {
             position: absolute; width: 100%; opacity: 0; transform: translateY(15px);
@@ -132,17 +138,19 @@ HTML_PAGE = """
             display: flex; justify-content: space-between; align-items: center;
         }
         .ticker-item.active { opacity: 1; transform: translateY(0); }
-        .ticker-amount { color: #66bb6a; font-weight: bold; }
+        .ticker-amount { color: #a3cef1; font-weight: bold; }
 
+        /* Nut Wallet Wooden Bottom Navigation Bar */
         .bottom-nav {
-            display: flex; justify-content: space-around; background: #3e2723; border-top: 3px solid #6d4c41;
+            display: flex; justify-content: space-around; background: #3b2219; border-top: 4px solid #5c3a21;
             padding: 8px 0; border-top-left-radius: 20px; border-top-right-radius: 20px;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.4);
         }
-        .nav-item { text-align: center; font-size: 10px; color: #d7ccc8; cursor: pointer; width: 20%; }
-        .nav-item.active { color: #ffb74d; font-weight: bold; }
+        .nav-item { text-align: center; font-size: 10px; color: #d7ccc8; cursor: pointer; width: 20%; font-weight: 600; }
+        .nav-item.active { color: #ffb703; font-weight: bold; text-shadow: 0 0 8px rgba(255,183,3,0.6); }
         .nav-icon { font-size: 18px; margin-bottom: 2px; }
         
-        .aads-container { margin: 10px 15px; text-align: center; border-radius: 12px; overflow: hidden; background: white; border: 2px solid #6d4c41; }
+        .aads-container { margin: 10px 15px; text-align: center; border-radius: 14px; overflow: hidden; background: #fff8eb; border: 3px solid #6f4e37; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
@@ -151,19 +159,21 @@ HTML_PAGE = """
 
         <!-- HOME TAB -->
         <div id="home-tab" class="tab-section active">
-            <div class="wood-card">
-                <div style="font-size: 13px; color: #5d4037; font-weight: bold;">TOTAL BALANCE</div>
-                <div class="balance-amount" id="balanceDisplay">0.00 <span style="font-size: 20px; color: #2e7d32;">USDT</span></div>
-                <div style="display: flex; gap: 10px; margin-top: 12px;">
-                    <button class="btn-wood" style="flex: 1;" onclick="withdraw()">Withdraw ($3+)</button>
-                    <button class="btn-wood" style="flex: 1; background: linear-gradient(135deg, #66bb6a 0%, #2e7d32 100%); border-color: #1b5e20;" onclick="switchTab('referrals-tab', 'nav-referrals')">Invite ($0.10)</button>
+            <div class="nut-wood-card">
+                <div style="font-size: 13px; color: #5c3a21; font-weight: bold; letter-spacing: 0.5px;">TOTAL BALANCE</div>
+                <div class="balance-amount" id="balanceDisplay">0.00 <span style="font-size: 20px; color: #2d6a4f;">USDT</span></div>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button class="btn-nut" style="flex: 1;" onclick="withdraw()">Withdraw ($3+)</button>
+                    <button class="btn-nut" style="flex: 1; background: linear-gradient(135deg, #4ea8de 0%, #0077b6 100%); border-color: #03045e;" onclick="switchTab('referrals-tab', 'nav-referrals')">Invite ($0.10)</button>
                 </div>
             </div>
 
+            <!-- Home Banner Ad -->
             <div class="aads-container">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
 
+            <!-- 100+ Live Withdrawal Ticker -->
             <div class="ticker-box">
                 <div class="ticker-title">⚡ Live Payouts (USDT BEP20)</div>
                 <div class="ticker-container" id="tickerContainer"></div>
@@ -176,9 +186,9 @@ HTML_PAGE = """
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
             
-            <div class="wood-card" style="padding: 12px; margin-bottom: 5px;">
+            <div class="nut-wood-card" style="padding: 12px; margin: 15px;">
                 <h3 style="margin: 0; color: #3e2723;">Complete Tasks ($0.05 Each)</h3>
-                <p style="margin: 5px 0 0 0; font-size: 12px; color: #5d4037;">Finish tasks to get instant rewards!</p>
+                <p style="margin: 4px 0 0 0; font-size: 12px; color: #5c3a21;">Finish tasks to get instant rewards!</p>
             </div>
             <div id="tasks-container"></div>
         </div>
@@ -189,19 +199,19 @@ HTML_PAGE = """
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
 
-            <div class="wood-card">
+            <div class="nut-wood-card">
                 <h3>🎁 Daily Reward</h3>
-                <p style="color: #5d4037;">Claim your free daily bonus of <b style="color:#2e7d32;">$0.02 USDT</b> every 24 hours!</p>
-                <button class="btn-wood" id="dailyBtn" style="width: 100%; padding: 12px;" onclick="claimDaily()">Claim $0.02 Bonus</button>
+                <p style="color: #5c3a21;">Claim your free daily bonus of <b style="color:#2d6a4f;">$0.02 USDT</b> every 24 hours!</p>
+                <button class="btn-nut" id="dailyBtn" style="width: 100%; padding: 12px;" onclick="claimDaily()">Claim $0.02 Bonus</button>
             </div>
         </div>
 
         <!-- REFERRALS TAB -->
         <div id="referrals-tab" class="tab-section">
-            <div class="wood-card">
+            <div class="nut-wood-card">
                 <h3>Invite Friends</h3>
-                <p style="color: #5d4037;">Earn <b style="color:#2e7d32;">$0.10 USDT</b> for every active friend you invite worldwide!</p>
-                <button class="btn-wood" style="width: 100%;" onclick="copyRefLink()">Copy Invite Link</button>
+                <p style="color: #5c3a21;">Earn <b style="color:#2d6a4f;">$0.10 USDT</b> for every active friend you invite worldwide!</p>
+                <button class="btn-nut" style="width: 100%;" onclick="copyRefLink()">Copy Invite Link</button>
             </div>
             
             <div class="aads-container">
@@ -215,15 +225,15 @@ HTML_PAGE = """
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
 
-            <div class="wood-card">
+            <div class="nut-wood-card">
                 <h3>⚙️ Settings</h3>
-                <p style="font-size: 13px; color: #5d4037;">Add your wallet to receive global payments.</p>
+                <p style="font-size: 13px; color: #5c3a21;">Add your wallet to receive global payments.</p>
                 <div style="text-align: left; font-size: 13px; font-weight: bold; margin-top:10px; color:#3e2723;">USDT (BEP20) Address:</div>
                 <input type="text" id="walletInput" placeholder="Enter Wallet Address (0x...)">
-                <button class="btn-wood" style="width: 100%; margin-top: 5px;" onclick="saveWallet()">Save Address</button>
-                <hr style="margin:15px 0; border:0; border-top:1px solid #d7ccc8;">
-                <p style="font-size: 12px; color: #5d4037;">Want to promote your link globally?</p>
-                <button class="btn-wood" style="width: 100%; background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%); border-color: #0d47a1;" onclick="window.Telegram.WebApp.openTelegramLink('https://t.me/Loverschoice786')">Contact Admin</button>
+                <button class="btn-nut" style="width: 100%; margin-top: 5px;" onclick="saveWallet()">Save Address</button>
+                <hr style="margin:15px 0; border:0; border-top:2px dashed #b08968;">
+                <p style="font-size: 12px; color: #5c3a21;">Want to promote your link globally?</p>
+                <button class="btn-nut" style="width: 100%; background: linear-gradient(135deg, #4ea8de 0%, #0077b6 100%); border-color: #03045e;" onclick="window.Telegram.WebApp.openTelegramLink('https://t.me/Loverschoice786')">Contact Admin</button>
             </div>
         </div>
 
@@ -232,16 +242,16 @@ HTML_PAGE = """
     <!-- Bottom Navigation -->
     <div class="bottom-nav">
         <div class="nav-item active" id="nav-home" onclick="switchTab('home-tab', 'nav-home')">
-            <div class="nav-icon">🏠</div>Home
+            <div class="nav-icon">🌰</div>Home
         </div>
         <div class="nav-item" id="nav-tasks" onclick="switchTab('tasks-tab', 'nav-tasks')">
-            <div class="nav-icon">☑️</div>Tasks
+            <div class="nav-icon">📋</div>Tasks
         </div>
         <div class="nav-item" id="nav-daily" onclick="switchTab('daily-tab', 'nav-daily')">
             <div class="nav-icon">🎁</div>Bonus
         </div>
         <div class="nav-item" id="nav-referrals" onclick="switchTab('referrals-tab', 'nav-referrals')">
-            <div class="nav-icon">👥</div>Invite
+            <div class="nav-icon">🐿️</div>Invite
         </div>
         <div class="nav-item" id="nav-settings" onclick="switchTab('settings-tab', 'nav-settings')">
             <div class="nav-icon">⚙️</div>Settings
@@ -269,13 +279,13 @@ HTML_PAGE = """
         ];
 
         let balance = parseFloat(localStorage.getItem('f4f_balance')) || 0.00;
-        document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px; color: #2e7d32;">USDT</span>';
+        document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px; color: #2d6a4f;">USDT</span>';
         document.getElementById('walletInput').value = localStorage.getItem('f4f_wallet') || "";
 
         function updateBalance(amount) {
             balance += amount;
             localStorage.setItem('f4f_balance', balance.toFixed(2));
-            document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px; color: #2e7d32;">USDT</span>';
+            document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px; color: #2d6a4f;">USDT</span>';
         }
 
         const tasksContainer = document.getElementById('tasks-container');
@@ -286,7 +296,7 @@ HTML_PAGE = """
                         <h4>${task.title}</h4>
                         <p>+$0.05 USDT</p>
                     </div>
-                    <button class="btn-wood" id="btn_${task.id}" onclick="startTask(${task.id}, '${task.url}')">Watch</button>
+                    <button class="btn-nut" id="btn_${task.id}" onclick="startTask(${task.id}, '${task.url}')">Watch</button>
                 </div>
             `;
         });
@@ -353,7 +363,7 @@ HTML_PAGE = """
             let activeClass = index === 0 ? 'active' : '';
             tickerContainer.innerHTML += `
                 <div class="ticker-item ${activeClass}" id="tick_${index}">
-                    <span>👤 <b>${w.name}</b> (${w.wallet})</span>
+                    <span>🌰 <b>${w.name}</b> (${w.wallet})</span>
                     <span class="ticker-amount">+$${w.amount} USDT</span>
                 </div>
             `;
@@ -399,7 +409,7 @@ HTML_PAGE = """
                 window.Telegram.WebApp.showAlert("Withdrawal request submitted successfully!");
                 balance -= MIN_WITHDRAW;
                 localStorage.setItem('f4f_balance', balance.toFixed(2));
-                document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px; color: #2e7d32;">USDT</span>';
+                document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px; color: #2d6a4f;">USDT</span>';
             }
         }
 
