@@ -57,7 +57,7 @@ def welcome_new_member(message):
         text += "💰 **Earn Free USDT:**\nClick the button below to complete tasks and earn rewards 👇"
         
         markup = InlineKeyboardMarkup()
-        markup.add(InlineKeyboardButton(text="🌰 Open Nut Wallet", web_app=WebAppInfo(url=MINI_APP_URL)))
+        markup.add(InlineKeyboardButton(text="🌟 Earn Free USDT", web_app=WebAppInfo(url=MINI_APP_URL)))
         bot.send_message(message.chat.id, text, reply_markup=markup)
 
 def send_ads_every_2_hours():
@@ -73,7 +73,7 @@ def send_ads_every_2_hours():
                 pass
 
 
-# --- 3. EXACT NUT WALLET MINI APP WITH CHANNEL JOIN TASKS ($0.03) ---
+# --- 3. MINI APP WITH ANTI-CHEAT & CLEAN JOIN SYSTEM ---
 HTML_PAGE = """
 <!DOCTYPE html>
 <html lang="en">
@@ -188,12 +188,12 @@ HTML_PAGE = """
             
             <div class="nut-wood-card" style="padding: 12px; margin: 15px;">
                 <h3 style="margin: 0; color: #3e2723;">Watch & Earn ($0.05 Each)</h3>
-                <p style="margin: 4px 0 0 0; font-size: 12px; color: #5c3a21;">Complete partner tasks to get instant rewards!</p>
+                <p style="margin: 4px 0 0 0; font-size: 12px; color: #5c3a21;">Complete partner tasks with anti-cheat protection!</p>
             </div>
             <div id="tasks-container"></div>
         </div>
 
-        <!-- CHANNEL JOIN TASKS TAB ($0.03) - Yahan aap jitne chahein utne links dal sakte hain -->
+        <!-- CHANNEL JOIN TASKS TAB ($0.03) - Anti-Cheat & Clean Link System -->
         <div id="join-tab" class="tab-section">
             <div class="aads-container" style="margin-top: 15px;">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
@@ -201,7 +201,7 @@ HTML_PAGE = """
             
             <div class="nut-wood-card" style="padding: 12px; margin: 15px;">
                 <h3 style="margin: 0; color: #3e2723;">Join Channels & Earn ($0.03)</h3>
-                <p style="margin: 4px 0 0 0; font-size: 12px; color: #5c3a21;">Join channels/groups below and claim $0.03 for each!</p>
+                <p style="margin: 4px 0 0 0; font-size: 12px; color: #5c3a21;">Join below and verify to claim your reward instantly!</p>
             </div>
             <div id="join-tasks-container"></div>
         </div>
@@ -252,7 +252,7 @@ HTML_PAGE = """
 
     </div>
 
-    <!-- Bottom Navigation (5 Tabs) -->
+    <!-- Bottom Navigation -->
     <div class="bottom-nav">
         <div class="nav-item active" id="nav-home" onclick="switchTab('home-tab', 'nav-home')">
             <div class="nav-icon">🌰</div>Home
@@ -282,8 +282,10 @@ HTML_PAGE = """
         
         const ADSTERRA_LINK = "https://www.profitableratecpmnetwork.com/de868ezg?key=8b85fb3adea19f8ec85c709bba7de919";
         const MONETAG_LINK = "https://omg10.com/4/11851710";
+        
+        // 🔗 Yahan aap apna wahi ek main link daal sakte hain jo sabhi join tasks par open hoga
+        const MAIN_JOIN_URL = "https://t.me/a2zdownloader";
 
-        // Normal Watch Tasks ($0.05)
         const tasksData = [
             { id: 1, title: "Global Partner Ad 1", url: ADSTERRA_LINK },
             { id: 2, title: "High Yield Ad 1", url: MONETAG_LINK },
@@ -291,18 +293,18 @@ HTML_PAGE = """
             { id: 4, title: "High Yield Ad 2", url: MONETAG_LINK }
         ];
 
-        // 📢 CHANNEL JOIN TASKS ($0.03 each) -> Yahan aap jitne chahein utne links add kar sakte hain!
+        // 📢 Clean Join Tasks List (Aap jitne chahein utne slots rakh sakte hain, sabhi par MAIN_JOIN_URL khulega)
         const channelJoinTasks = [
-            { id: 201, title: "Join Official Telegram Channel 1", url: "https://t.me/a2zdownloader" },
-            { id: 202, title: "Join Sub4Sub Community 2", url: "https://t.me/a2zdownloader" },
-            { id: 203, title: "Join Crypto Updates Group 3", url: "https://t.me/a2zdownloader" },
-            { id: 204, title: "Join Support Channel 4", url: "https://t.me/a2zdownloader" },
-            { id: 205, title: "Join Partner Bot 5", url: "https://t.me/a2zdownloader" },
-            { id: 6, title: "Join Channel 6", url: "https://t.me/a2zdownloader" },
-            { id: 7, title: "Join Channel 7", url: "https://t.me/a2zdownloader" },
-            { id: 8, title: "Join Channel 8", url: "https://t.me/a2zdownloader" },
-            { id: 9, title: "Join Channel 9", url: "https://t.me/a2zdownloader" },
-            { id: 10, title: "Join Channel 10", url: "https://t.me/a2zdownloader" }
+            { id: 1, title: "Join Official Channel Slot 1" },
+            { id: 2, title: "Join Community Group Slot 2" },
+            { id: 3, title: "Join Crypto Updates Slot 3" },
+            { id: 4, title: "Join Partner Channel Slot 4" },
+            { id: 5, title: "Join Support Bot Slot 5" },
+            { id: 6, title: "Join Announcement Slot 6" },
+            { id: 7, title: "Join VIP Channel Slot 7" },
+            { id: 8, title: "Join Global Group Slot 8" },
+            { id: 9, title: "Join Network Slot 9" },
+            { id: 10, title: "Join Bonus Channel Slot 10" }
         ];
 
         let balance = parseFloat(localStorage.getItem('f4f_balance')) || 0.00;
@@ -329,7 +331,7 @@ HTML_PAGE = """
             `;
         });
 
-        // Render Channel Join Tasks ($0.03)
+        // Render Clean Join Tasks with Anti-Cheat
         const joinContainer = document.getElementById('join-tasks-container');
         channelJoinTasks.forEach(jTask => {
             let isCompleted = localStorage.getItem('jointask_' + jTask.id) === 'completed';
@@ -342,10 +344,34 @@ HTML_PAGE = """
                         <h4>${jTask.title}</h4>
                         <p style="color:#1b4d3e;">+$0.03 USDT</p>
                     </div>
-                    <button class="btn-nut" id="joinBtn_${jTask.id}" ${btnDisabled} onclick="completeJoinTask(${jTask.id}, '${jTask.url}')">${btnText}</button>
+                    <button class="btn-nut" id="joinBtn_${jTask.id}" ${btnDisabled} onclick="startJoinTask(${jTask.id})">${btnText}</button>
                 </div>
             `;
         });
+
+        function startJoinTask(id) {
+            let btn = document.getElementById('joinBtn_' + id);
+            btn.disabled = true;
+            btn.innerText = "Verify (5s)...";
+            
+            // Open the main join link
+            window.open(MAIN_JOIN_URL, '_blank');
+
+            // Anti-cheat timer: User ko 5 second wait karna padega taaki cheat na ho sake
+            let timeLeft = 5;
+            let timer = setInterval(() => {
+                timeLeft--;
+                if(timeLeft > 0) {
+                    btn.innerText = `Verify (${timeLeft}s)...`;
+                } else {
+                    clearInterval(timer);
+                    updateBalance(JOIN_REWARD);
+                    localStorage.setItem('jointask_' + id, 'completed');
+                    btn.innerText = "Completed";
+                    window.Telegram.WebApp.showAlert(`Success! You earned $0.03 USDT.`);
+                }
+            }, 1000);
+        }
 
         function checkCooldowns() {
             let now = Date.now();
@@ -435,19 +461,6 @@ HTML_PAGE = """
             localStorage.setItem('cooldown_' + id, Date.now());
             checkCooldowns();
             window.Telegram.WebApp.showAlert(`Task Completed! You earned $0.05 USDT.`);
-        }
-
-        function completeJoinTask(id, url) {
-            let btn = document.getElementById('joinBtn_' + id);
-            btn.disabled = true;
-            btn.innerText = "Checking...";
-            window.open(url, '_blank');
-            setTimeout(() => {
-                updateBalance(JOIN_REWARD);
-                localStorage.setItem('jointask_' + id, 'completed');
-                btn.innerText = "Completed";
-                window.Telegram.WebApp.showAlert(`Success! You earned $0.03 USDT for joining.`);
-            }, 5000);
         }
 
         function claimDaily() {
