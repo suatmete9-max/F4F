@@ -72,7 +72,7 @@ def send_ads_every_2_hours():
                 pass
 
 
-# --- 3. EXACT NUT WALLET WOOD THEME MINI APP ---
+# --- 3. EXACT NUT WALLET THEME MINI APP ---
 HTML_PAGE = """
 <!DOCTYPE html>
 <html lang="en">
@@ -86,7 +86,6 @@ HTML_PAGE = """
     <style>
         body {
             margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Exact Nut Wallet Nature/Wood Background Image */
             background: url('https://images.unsplash.com/photo-1511497584788-876760111969?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') no-repeat center center fixed;
             background-size: cover; color: #2e2e2e; display: flex; flex-direction: column; height: 100vh; overflow: hidden;
         }
@@ -95,7 +94,6 @@ HTML_PAGE = """
         .tab-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Nut Wallet Wood Theme Card */
         .wood-card {
             background: rgba(255, 248, 220, 0.95); border: 3px solid #6d4c41; border-radius: 20px;
             padding: 20px; margin: 15px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); text-align: center;
@@ -122,7 +120,6 @@ HTML_PAGE = """
             font-size: 14px; background: #fff; text-align: center;
         }
 
-        /* 100+ Live Withdrawal Ticker */
         .ticker-box {
             background: rgba(62, 39, 35, 0.88); border: 2px solid #6d4c41; border-radius: 14px;
             margin: 15px; padding: 10px 15px; text-align: left; height: 55px; overflow: hidden; position: relative;
@@ -137,7 +134,6 @@ HTML_PAGE = """
         .ticker-item.active { opacity: 1; transform: translateY(0); }
         .ticker-amount { color: #66bb6a; font-weight: bold; }
 
-        /* Nut Wallet Bottom Navigation */
         .bottom-nav {
             display: flex; justify-content: space-around; background: #3e2723; border-top: 3px solid #6d4c41;
             padding: 8px 0; border-top-left-radius: 20px; border-top-right-radius: 20px;
