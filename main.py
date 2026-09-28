@@ -5,7 +5,7 @@ import os
 import time
 from flask import Flask, render_template_string
 
-TOKEN = '8808458591:AAGzWBqixE7fzX5WurWETaZ_MWt6zf6tYo0'
+TOKEN = '8918880403:AAFTytt-7UWXIJQLm1yDCVP-NoNVM0aJ6QQ'
 bot = telebot.TeleBot(TOKEN)
 app = Flask(__name__)
 
