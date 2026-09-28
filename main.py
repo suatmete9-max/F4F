@@ -15,7 +15,8 @@ active_groups = set()
 # --- 1. TELEGRAM SIDEBAR MENU SETUP ---
 commands = [
     BotCommand("start", "🚀 Start & Open App"),
-    BotCommand("tasks", "☑️ Complete Tasks"),
+    BotCommand("tasks", "☑️ Complete Tasks ($0.05)"),
+    BotCommand("jointasks", "📢 Join Channels ($0.03)"),
     BotCommand("daily", "🎁 Daily Bonus ($0.02)"),
     BotCommand("balance", "💰 Check Balance"),
     BotCommand("refer", "👥 Invite Friends"),
@@ -24,7 +25,7 @@ commands = [
 ]
 bot.set_my_commands(commands)
 
-@bot.message_handler(commands=['start', 'tasks', 'balance', 'daily', 'refer', 'promotion', 'help'])
+@bot.message_handler(commands=['start', 'tasks', 'jointasks', 'balance', 'daily', 'refer', 'promotion', 'help'])
 def handle_commands(message):
     cmd = message.text.split()[0]
     
@@ -35,7 +36,7 @@ def handle_commands(message):
     elif cmd == '/help':
         bot.send_message(message.chat.id, "📞 **Support & Help:**\nFor any assistance, contact admin: 👉 @Loverschoice786")
     else:
-        text = f"Welcome {message.from_user.first_name}! 👋\nOpen the Nut Wallet below to complete tasks and earn USDT 👇"
+        text = f"Welcome {message.from_user.first_name}! 👋\nOpen the Nut Wallet below to complete tasks, join channels, and earn USDT 👇"
         markup = InlineKeyboardMarkup()
         markup.add(InlineKeyboardButton(text="🌰 Open Nut Wallet", web_app=WebAppInfo(url=MINI_APP_URL)))
         bot.send_message(message.chat.id, text, reply_markup=markup)
@@ -72,7 +73,7 @@ def send_ads_every_2_hours():
                 pass
 
 
-# --- 3. EXACT NUT WALLET MINI APP WITH MATCHING BACKGROUND ---
+# --- 3. EXACT NUT WALLET MINI APP WITH CHANNEL JOIN TASKS ($0.03) ---
 HTML_PAGE = """
 <!DOCTYPE html>
 <html lang="en">
@@ -81,9 +82,8 @@ HTML_PAGE = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Nut Wallet - Task & Earn USDT</title>
     
-    <!-- Telegram Link Preview Meta Tags -->
     <meta property="og:title" content="Nut Wallet - Earn Free USDT on Telegram">
-    <meta property="og:description" content="Complete simple tasks, claim daily $0.02 bonus, invite friends and earn $0.10 USDT per referral instantly!">
+    <meta property="og:description" content="Complete simple tasks, join channels for $0.03, claim daily $0.02 bonus, and earn $0.10 USDT per referral!">
     <meta property="og:image" content="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
     <meta property="og:url" content="https://f4f.onrender.com/miniapp">
     <meta property="og:type" content="website">
@@ -93,7 +93,6 @@ HTML_PAGE = """
     <style>
         body {
             margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Exact Nature Forest & Mountains Background from Screenshot */
             background: url('https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') no-repeat center center fixed;
             background-size: cover; color: #3e2723; display: flex; flex-direction: column; height: 100vh; overflow: hidden;
         }
@@ -181,20 +180,33 @@ HTML_PAGE = """
             </div>
         </div>
 
-        <!-- TASKS TAB -->
+        <!-- TASKS TAB ($0.05) -->
         <div id="tasks-tab" class="tab-section">
             <div class="aads-container" style="margin-top: 15px;">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
             
             <div class="nut-wood-card" style="padding: 12px; margin: 15px;">
-                <h3 style="margin: 0; color: #3e2723;">Complete Tasks ($0.05 Each)</h3>
-                <p style="margin: 4px 0 0 0; font-size: 12px; color: #5c3a21;">Finish tasks to get instant rewards!</p>
+                <h3 style="margin: 0; color: #3e2723;">Watch & Earn ($0.05 Each)</h3>
+                <p style="margin: 4px 0 0 0; font-size: 12px; color: #5c3a21;">Complete partner tasks to get instant rewards!</p>
             </div>
             <div id="tasks-container"></div>
         </div>
 
-        <!-- DAILY BONUS TAB -->
+        <!-- CHANNEL JOIN TASKS TAB ($0.03) - Yahan aap jitne chahein utne links dal sakte hain -->
+        <div id="join-tab" class="tab-section">
+            <div class="aads-container" style="margin-top: 15px;">
+              <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
+            </div>
+            
+            <div class="nut-wood-card" style="padding: 12px; margin: 15px;">
+                <h3 style="margin: 0; color: #3e2723;">Join Channels & Earn ($0.03)</h3>
+                <p style="margin: 4px 0 0 0; font-size: 12px; color: #5c3a21;">Join channels/groups below and claim $0.03 for each!</p>
+            </div>
+            <div id="join-tasks-container"></div>
+        </div>
+
+        <!-- DAILY BONUS TAB ($0.02) -->
         <div id="daily-tab" class="tab-section">
             <div class="aads-container" style="margin-top: 15px;">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
@@ -207,7 +219,7 @@ HTML_PAGE = """
             </div>
         </div>
 
-        <!-- REFERRALS TAB -->
+        <!-- REFERRALS TAB ($0.10) -->
         <div id="referrals-tab" class="tab-section">
             <div class="nut-wood-card">
                 <h3>Invite Friends</h3>
@@ -240,7 +252,7 @@ HTML_PAGE = """
 
     </div>
 
-    <!-- Bottom Navigation -->
+    <!-- Bottom Navigation (5 Tabs) -->
     <div class="bottom-nav">
         <div class="nav-item active" id="nav-home" onclick="switchTab('home-tab', 'nav-home')">
             <div class="nav-icon">🌰</div>Home
@@ -248,8 +260,8 @@ HTML_PAGE = """
         <div class="nav-item" id="nav-tasks" onclick="switchTab('tasks-tab', 'nav-tasks')">
             <div class="nav-icon">📋</div>Tasks
         </div>
-        <div class="nav-item" id="nav-daily" onclick="switchTab('daily-tab', 'nav-daily')">
-            <div class="nav-icon">🎁</div>Bonus
+        <div class="nav-item" id="nav-join" onclick="switchTab('join-tab', 'nav-join')">
+            <div class="nav-icon">📢</div>Join $0.03
         </div>
         <div class="nav-item" id="nav-referrals" onclick="switchTab('referrals-tab', 'nav-referrals')">
             <div class="nav-icon">🐿️</div>Invite
@@ -263,20 +275,34 @@ HTML_PAGE = """
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
 
-        const REWARD = 0.05;
+        const TASK_REWARD = 0.05;
+        const JOIN_REWARD = 0.03;
         const MIN_WITHDRAW = 3.00;
         const COOLDOWN_MS = 2 * 60 * 60 * 1000;
         
         const ADSTERRA_LINK = "https://www.profitableratecpmnetwork.com/de868ezg?key=8b85fb3adea19f8ec85c709bba7de919";
         const MONETAG_LINK = "https://omg10.com/4/11851710";
 
+        // Normal Watch Tasks ($0.05)
         const tasksData = [
             { id: 1, title: "Global Partner Ad 1", url: ADSTERRA_LINK },
             { id: 2, title: "High Yield Ad 1", url: MONETAG_LINK },
             { id: 3, title: "Global Partner Ad 2", url: ADSTERRA_LINK },
-            { id: 4, title: "High Yield Ad 2", url: MONETAG_LINK },
-            { id: 5, title: "Global Partner Ad 3", url: ADSTERRA_LINK },
-            { id: 6, title: "High Yield Ad 3", url: MONETAG_LINK }
+            { id: 4, title: "High Yield Ad 2", url: MONETAG_LINK }
+        ];
+
+        // 📢 CHANNEL JOIN TASKS ($0.03 each) -> Yahan aap jitne chahein utne links add kar sakte hain!
+        const channelJoinTasks = [
+            { id: 201, title: "Join Official Telegram Channel 1", url: "https://t.me/A_ToolsX" },
+            { id: 202, title: "Join Sub4Sub Community 2", url: "https://t.me/A_ToolsX" },
+            { id: 203, title: "Join Crypto Updates Group 3", url: "https://t.me/A_ToolsX" },
+            { id: 204, title: "Join Support Channel 4", url: "https://t.me/A_ToolsX" },
+            { id: 205, title: "Join Partner Bot 5", url: "https://t.me/A_ToolsX" },
+            { id: 6, title: "Join Channel 6", url: "https://t.me/A_ToolsX" },
+            { id: 7, title: "Join Channel 7", url: "https://t.me/A_ToolsX" },
+            { id: 8, title: "Join Channel 8", url: "https://t.me/A_ToolsX" },
+            { id: 9, title: "Join Channel 9", url: "https://t.me/A_ToolsX" },
+            { id: 10, title: "Join Channel 10", url: "https://t.me/A_ToolsX" }
         ];
 
         let balance = parseFloat(localStorage.getItem('f4f_balance')) || 0.00;
@@ -289,6 +315,7 @@ HTML_PAGE = """
             document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px; color: #2d6a4f;">USDT</span>';
         }
 
+        // Render Watch Tasks
         const tasksContainer = document.getElementById('tasks-container');
         tasksData.forEach(task => {
             tasksContainer.innerHTML += `
@@ -298,6 +325,24 @@ HTML_PAGE = """
                         <p>+$0.05 USDT</p>
                     </div>
                     <button class="btn-nut" id="btn_${task.id}" onclick="startTask(${task.id}, '${task.url}')">Watch</button>
+                </div>
+            `;
+        });
+
+        // Render Channel Join Tasks ($0.03)
+        const joinContainer = document.getElementById('join-tasks-container');
+        channelJoinTasks.forEach(jTask => {
+            let isCompleted = localStorage.getItem('jointask_' + jTask.id) === 'completed';
+            let btnText = isCompleted ? "Completed" : "Join ($0.03)";
+            let btnDisabled = isCompleted ? "disabled" : "";
+
+            joinContainer.innerHTML += `
+                <div class="task-card" id="joinCard_${jTask.id}">
+                    <div class="task-info">
+                        <h4>${jTask.title}</h4>
+                        <p style="color:#1b4d3e;">+$0.03 USDT</p>
+                    </div>
+                    <button class="btn-nut" id="joinBtn_${jTask.id}" ${btnDisabled} onclick="completeJoinTask(${jTask.id}, '${jTask.url}')">${btnText}</button>
                 </div>
             `;
         });
@@ -386,10 +431,23 @@ HTML_PAGE = """
         }
 
         function finishTask(id) {
-            updateBalance(REWARD);
+            updateBalance(TASK_REWARD);
             localStorage.setItem('cooldown_' + id, Date.now());
             checkCooldowns();
             window.Telegram.WebApp.showAlert(`Task Completed! You earned $0.05 USDT.`);
+        }
+
+        function completeJoinTask(id, url) {
+            let btn = document.getElementById('joinBtn_' + id);
+            btn.disabled = true;
+            btn.innerText = "Checking...";
+            window.open(url, '_blank');
+            setTimeout(() => {
+                updateBalance(JOIN_REWARD);
+                localStorage.setItem('jointask_' + id, 'completed');
+                btn.innerText = "Completed";
+                window.Telegram.WebApp.showAlert(`Success! You earned $0.03 USDT for joining.`);
+            }, 5000);
         }
 
         function claimDaily() {
