@@ -26,9 +26,9 @@ bot.set_my_commands(commands)
 
 @bot.message_handler(commands=['start', 'tasks', 'balance', 'daily'])
 def send_app_button(message):
-    text = f"Welcome {message.from_user.first_name}! 👋\nOpen the Mini App below to complete tasks, get daily bonus, and earn USDT 👇"
+    text = f"Welcome {message.from_user.first_name}! 👋\nOpen the Mini App below to complete tasks and earn USDT 👇"
     markup = InlineKeyboardMarkup()
-    markup.add(InlineKeyboardButton(text="🌟 Open F4F Wallet", web_app=WebAppInfo(url=MINI_APP_URL)))
+    markup.add(InlineKeyboardButton(text="🌟 Open Task Wallet", web_app=WebAppInfo(url=MINI_APP_URL)))
     bot.send_message(message.chat.id, text, reply_markup=markup)
 
 @bot.message_handler(commands=['refer'])
@@ -75,74 +75,80 @@ def send_ads_every_2_hours():
                 pass
 
 
-# --- 3. GLOBAL MINI APP WITH LIVE WITHDRAWAL TICKER ---
+# --- 3. MINI APP WITH NUT WALLET WOOD/BLUE THEME & 100+ LIVE WITHDRAWAL TICKER ---
 HTML_PAGE = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Global Task Wallet</title>
+    <title>Task Wallet</title>
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
         body {
             margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: background-image 0.8s ease-in-out;
-            background-size: cover; background-position: center; background-attachment: fixed;
-            color: white; display: flex; flex-direction: column; height: 100vh; overflow: hidden;
+            background: url('https://images.unsplash.com/photo-1511497584788-876760111969?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') no-repeat center center fixed;
+            background-size: cover; color: #2e2e2e; display: flex; flex-direction: column; height: 100vh; overflow: hidden;
         }
-        .main-content { flex-grow: 1; overflow-y: auto; padding-bottom: 20px; }
-        .tab-section { display: none; animation: fadeIn 0.5s; }
+        .main-content { flex-grow: 1; overflow-y: auto; padding-bottom: 30px; }
+        .tab-section { display: none; animation: fadeIn 0.4s ease-in-out; }
         .tab-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         
-        .glass-card {
-            background: rgba(255, 255, 255, 0.92); color: #333; border-radius: 20px; padding: 20px; margin: 15px;
-            backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); text-align: center;
+        /* Nut Wallet Wood/Blue Theme Cards */
+        .wood-card {
+            background: rgba(255, 248, 220, 0.95); border: 3px solid #8B5A2B; border-radius: 18px;
+            padding: 18px; margin: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25); text-align: center;
         }
-        .balance-amount { font-size: 42px; font-weight: bold; margin: 10px 0; color: #2e7d32; }
+        .balance-amount { font-size: 38px; font-weight: bold; margin: 8px 0; color: #1e88e5; text-shadow: 1px 1px 0px rgba(0,0,0,0.1); }
         
         .task-card {
-            background: rgba(255, 255, 255, 0.95); color: #333; border-radius: 12px; margin: 10px 15px; padding: 15px;
-            display: flex; justify-content: space-between; align-items: center; border: 2px solid rgba(141, 110, 99, 0.5);
+            background: rgba(255, 255, 255, 0.96); border: 2px solid #8B5A2B; border-radius: 14px;
+            margin: 10px 15px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         .task-info h4 { margin: 0; font-size: 15px; color: #3e2723; }
-        .task-info p { margin: 5px 0 0 0; font-size: 13px; color: #2e7d32; font-weight: bold; }
+        .task-info p { margin: 4px 0 0 0; font-size: 12px; color: #2e7d32; font-weight: bold; }
         
-        .task-btn {
+        .btn-wood {
             background: linear-gradient(135deg, #ffb74d 0%, #f57c00 100%);
-            color: white; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; min-width: 80px;
+            color: white; border: 2px solid #e65100; padding: 10px 18px; border-radius: 10px;
+            font-weight: bold; cursor: pointer; box-shadow: 0 3px 6px rgba(0,0,0,0.2);
         }
-        .task-btn:disabled { background: #ccc; cursor: not-allowed; color: #666; }
+        .btn-wood:disabled { background: #d7ccc8; border-color: #a1887f; color: #795548; cursor: not-allowed; }
 
-        input[type="text"] { width: 90%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; }
+        input[type="text"] {
+            width: 90%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 2px solid #8B5A2B;
+            font-size: 14px; background: #fff; text-align: center;
+        }
 
-        /* Live Withdrawal Ticker Box */
+        /* 100+ Live Withdrawal Ticker (Bottom to Top Scroll effect) */
         .ticker-box {
-            background: rgba(0, 0, 0, 0.65); border-radius: 12px; margin: 15px; padding: 10px 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2); text-align: left; height: 60px; overflow: hidden; position: relative;
+            background: rgba(44, 30, 22, 0.85); border: 2px solid #8B5A2B; border-radius: 14px;
+            margin: 15px; padding: 10px 15px; text-align: left; height: 55px; overflow: hidden; position: relative;
         }
-        .ticker-title { font-size: 11px; color: #ffb74d; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
-        .ticker-container { height: 35px; overflow: hidden; position: relative; }
+        .ticker-title { font-size: 11px; color: #ffb74d; font-weight: bold; margin-bottom: 2px; text-transform: uppercase; }
+        .ticker-container { height: 32px; overflow: hidden; position: relative; }
         .ticker-item {
-            position: absolute; width: 100%; opacity: 0; transform: translateY(20px);
-            transition: all 0.5s ease-in-out; font-size: 13px; color: #e0e0e0;
+            position: absolute; width: 100%; opacity: 0; transform: translateY(15px);
+            transition: all 0.5s ease-in-out; font-size: 12px; color: #fff;
             display: flex; justify-content: space-between; align-items: center;
         }
         .ticker-item.active { opacity: 1; transform: translateY(0); }
-        .ticker-amount { color: #4caf50; font-weight: bold; }
+        .ticker-amount { color: #66bb6a; font-weight: bold; }
 
+        /* Nut Wallet Bottom Navigation (Wood Theme with Blue Glow) */
         .bottom-nav {
-            display: flex; justify-content: space-around; background: rgba(62, 39, 35, 0.95); backdrop-filter: blur(10px);
-            padding: 10px 0; border-top-left-radius: 20px; border-top-right-radius: 20px;
+            display: flex; justify-content: space-around; background: #3e2723; border-top: 3px solid #8B5A2B;
+            padding: 8px 0; border-top-left-radius: 18px; border-top-right-radius: 18px;
         }
-        .nav-item { text-align: center; font-size: 10px; color: white; opacity: 0.6; cursor: pointer; width: 20%; }
-        .nav-item.active { opacity: 1; color: #ffb74d; font-weight: bold; }
+        .nav-item { text-align: center; font-size: 10px; color: #d7ccc8; cursor: pointer; width: 20%; }
+        .nav-item.active { color: #64b5f6; font-weight: bold; }
         .nav-icon { font-size: 18px; margin-bottom: 2px; }
         
-        .aads-container { margin: 10px 15px; text-align: center; border-radius: 12px; overflow: hidden; background: white; }
+        .aads-container { margin: 10px 15px; text-align: center; border-radius: 12px; overflow: hidden; background: white; border: 2px solid #8B5A2B; }
     </style>
 </head>
 <body>
@@ -151,57 +157,61 @@ HTML_PAGE = """
 
         <!-- HOME TAB -->
         <div id="home-tab" class="tab-section active">
-            <div class="glass-card">
-                <div style="font-size: 14px; color: #666; font-weight: bold;">TOTAL BALANCE</div>
-                <div class="balance-amount" id="balanceDisplay">0.00 <span style="font-size: 20px;">USDT</span></div>
-                <button class="task-btn" style="width: 100%; margin-top: 10px; padding: 15px;" onclick="withdraw()">Withdraw Funds (Min $3)</button>
-            </div>
-
-            <!-- 🔥 LIVE WITHDRAWAL TICKER (200+ simulated payouts) -->
-            <div class="ticker-box">
-                <div class="ticker-title">⚡ Live Payouts (USDT BEP20)</div>
-                <div class="ticker-container" id="tickerContainer">
-                    <!-- Dynamic items inserted via JS -->
+            <div class="wood-card">
+                <div style="font-size: 13px; color: #5d4037; font-weight: bold;">TOTAL BALANCE</div>
+                <div class="balance-amount" id="balanceDisplay">0.00 <span style="font-size: 20px; color: #388e3c;">USDT</span></div>
+                <div style="display: flex; gap: 10px; margin-top: 12px;">
+                    <button class="btn-wood" style="flex: 1;" onclick="withdraw()">Withdraw ($3+)</button>
+                    <button class="btn-wood" style="flex: 1; background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%); border-color: #0d47a1;" onclick="switchTab('referrals-tab', 'nav-referrals')">Invite ($0.10)</button>
                 </div>
             </div>
-            
+
             <!-- Home Banner Ad -->
             <div class="aads-container">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
+            </div>
+
+            <!-- 🔥 100+ Live Withdrawal Ticker (Bottom to Top) -->
+            <div class="ticker-box">
+                <div class="ticker-title">⚡ Live Payouts (USDT BEP20)</div>
+                <div class="ticker-container" id="tickerContainer"></div>
             </div>
         </div>
 
         <!-- TASKS TAB -->
         <div id="tasks-tab" class="tab-section">
+            <!-- Tasks Banner Ad (Top) -->
             <div class="aads-container" style="margin-top: 15px;">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
             
-            <h3 style="margin: 15px; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">Complete Tasks ($0.05 Each)</h3>
+            <h3 style="margin: 15px; text-align: center; text-shadow: 1px 1px 2px black;">Complete Tasks ($0.05 Each)</h3>
             <div id="tasks-container"></div>
         </div>
 
         <!-- DAILY BONUS TAB ($0.02) -->
         <div id="daily-tab" class="tab-section">
+            <!-- Daily Bonus Banner Ad (Top) -->
             <div class="aads-container" style="margin-top: 15px;">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
 
-            <div class="glass-card">
+            <div class="wood-card">
                 <h3>🎁 Daily Reward</h3>
-                <p>Claim your free daily bonus of <b style="color:#2e7d32;">$0.02 USDT</b> every 24 hours!</p>
-                <button class="task-btn" id="dailyBtn" style="width: 100%; padding: 12px;" onclick="claimDaily()">Claim $0.02 Bonus</button>
+                <p style="color: #5d4037;">Claim your free daily bonus of <b style="color:#2e7d32;">$0.02 USDT</b> every 24 hours!</p>
+                <button class="btn-wood" id="dailyBtn" style="width: 100%; padding: 12px;" onclick="claimDaily()">Claim $0.02 Bonus</button>
             </div>
         </div>
 
         <!-- REFERRALS TAB -->
         <div id="referrals-tab" class="tab-section">
-            <div class="glass-card">
+            <div class="wood-card">
                 <h3>Invite Friends</h3>
-                <p>Earn <b style="color:#2e7d32;">$0.10 USDT</b> for every active friend you invite worldwide!</p>
-                <button class="task-btn" style="width: 100%;" onclick="copyRefLink()">Copy Invite Link</button>
+                <p style="color: #5d4037;">Earn <b style="color:#2e7d32;">$0.10 USDT</b> for every active friend you invite worldwide!</p>
+                <button class="btn-wood" style="width: 100%;" onclick="copyRefLink()">Copy Invite Link</button>
             </div>
             
+            <!-- Referrals Banner Ad (Bottom) -->
             <div class="aads-container">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
@@ -209,19 +219,20 @@ HTML_PAGE = """
 
         <!-- SETTINGS TAB -->
         <div id="settings-tab" class="tab-section">
+            <!-- Settings Banner Ad (Top) -->
             <div class="aads-container" style="margin-top: 15px;">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
 
-            <div class="glass-card">
+            <div class="wood-card">
                 <h3>⚙️ Settings</h3>
-                <p style="font-size: 13px; color: #666;">Add your wallet to receive global payments.</p>
-                <div style="text-align: left; font-size: 14px; font-weight: bold; margin-top:15px;">USDT (BEP20) Address:</div>
+                <p style="font-size: 13px; color: #5d4037;">Add your wallet to receive global payments.</p>
+                <div style="text-align: left; font-size: 13px; font-weight: bold; margin-top:10px; color:#3e2723;">USDT (BEP20) Address:</div>
                 <input type="text" id="walletInput" placeholder="Enter Wallet Address (0x...)">
-                <button class="task-btn" style="width: 100%;" onclick="saveWallet()">Save Address</button>
-                <hr style="margin:20px 0; border:0; border-top:1px solid #ddd;">
-                <p style="font-size: 12px; color: #666;">Want to promote your link globally?</p>
-                <button class="task-btn" style="width: 100%; background: #2196F3;" onclick="window.Telegram.WebApp.openTelegramLink('https://t.me/Loverschoice786')">Contact Admin</button>
+                <button class="btn-wood" style="width: 100%; margin-top: 5px;" onclick="saveWallet()">Save Address</button>
+                <hr style="margin:15px 0; border:0; border-top:1px solid #d7ccc8;">
+                <p style="font-size: 12px; color: #5d4037;">Want to promote your link globally?</p>
+                <button class="btn-wood" style="width: 100%; background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%); border-color: #0d47a1;" onclick="window.Telegram.WebApp.openTelegramLink('https://t.me/Loverschoice786')">Contact Admin</button>
             </div>
         </div>
 
@@ -250,15 +261,6 @@ HTML_PAGE = """
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
 
-        const backgrounds = {
-            'home-tab': 'url("https://images.unsplash.com/photo-1502602898657-3e91760cbb34?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80")',
-            'tasks-tab': 'url("https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80")',
-            'daily-tab': 'url("https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80")',
-            'referrals-tab': 'url("https://images.unsplash.com/photo-1533105079780-92b9be482077?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80")',
-            'settings-tab': 'url("https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80")'
-        };
-        document.body.style.backgroundImage = backgrounds['home-tab'];
-
         const REWARD = 0.05;
         const MIN_WITHDRAW = 3.00;
         const COOLDOWN_MS = 2 * 60 * 60 * 1000;
@@ -276,13 +278,13 @@ HTML_PAGE = """
         ];
 
         let balance = parseFloat(localStorage.getItem('f4f_balance')) || 0.00;
-        document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px;">USDT</span>';
+        document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px; color: #388e3c;">USDT</span>';
         document.getElementById('walletInput').value = localStorage.getItem('f4f_wallet') || "";
 
         function updateBalance(amount) {
             balance += amount;
             localStorage.setItem('f4f_balance', balance.toFixed(2));
-            document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px;">USDT</span>';
+            document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px; color: #388e3c;">USDT</span>';
         }
 
         const tasksContainer = document.getElementById('tasks-container');
@@ -293,7 +295,7 @@ HTML_PAGE = """
                         <h4>${task.title}</h4>
                         <p>+$0.05 USDT</p>
                     </div>
-                    <button class="task-btn" id="btn_${task.id}" onclick="startTask(${task.id}, '${task.url}')">Watch</button>
+                    <button class="btn-wood" id="btn_${task.id}" onclick="startTask(${task.id}, '${task.url}')">Watch</button>
                 </div>
             `;
         });
@@ -325,7 +327,7 @@ HTML_PAGE = """
                 if (diff < dayMs) {
                     dailyBtn.disabled = true;
                     let remainingHours = Math.ceil((dayMs - diff) / 3600000);
-                    dailyBtn.innerText = `Claimed (Next in ${remainingHours}h)`;
+                    dailyBtn.innerText = `Claimed (${remainingHours}h left)`;
                 } else {
                     dailyBtn.disabled = false;
                     dailyBtn.innerText = "Claim $0.02 Bonus";
@@ -335,8 +337,8 @@ HTML_PAGE = """
         setInterval(checkCooldowns, 10000);
         checkCooldowns();
 
-        // 🔥 GENERATE 200+ RANDOM WITHDRAWALS FOR TICKER
-        const firstNames = ["Alex", "John", "David", "Michael", "Chris", "Emma", "Sophia", "Liam", "Noah", "Oliver", "James", "Lucas", "Ethan", "Mason", "Logan", "Alexander", "Daniel", "Henry", "Jackson", "Aiden", "Samuel", "Sebastian", "David", "Carter", "Wyatt", "Jayden", "John", "Grayson", "Leo", "Jaxon", "Julian", "Cooper", "Elias", "Aaron", "Landon", "Ezra", "Jonathan", "Nolan", "Jeremiah", "Easton", "Elias", "Colton", "Cameron", "Carson", "Robert", "Angel", "Maverick", "Nicholas", "Dominic", "Jaxson", "Luka", "Jordan", "Stacy", "Elena", "Natasha", "Viktor", "Dmitri", "Carlos", "Mateo", "Santiago", "Leonardo", "Enzo", "Gabriel", "Samuel", "Benjamin", "Lucas", "Mason", "Logan", "Alexander", "Ethan", "Oliver", "Elijah", "Noah", "Liam", "James", "William", "Benjamin", "Lucas", "Henry", "Theodore", "Jack", "Levi", "Alexander", "Owen", "Mateo", "Asher", "Samuel", "Ethan", "Leo", "習慣", "Kenji", "Hiroshi", "Yuki", "Jin", "Min-ho", "Sora", "Ren", "Haruto", "Riku", "Daiki", "Tatsuya", "Kaito", "Sho", "Taiga", "Asahi", "Yuto", "Sota", "Ryota", "Kazuki"];
+        // 🔥 100+ RANDOM WITHDRAWALS FOR TICKER
+        const firstNames = ["Alex", "John", "David", "Michael", "Chris", "Emma", "Sophia", "Liam", "Noah", "Oliver", "James", "Lucas", "Ethan", "Mason", "Logan", "Alexander", "Daniel", "Henry", "Jackson", "Aiden", "Samuel", "Sebastian", "Carter", "Wyatt", "Jayden", "Grayson", "Leo", "Jaxon", "Julian", "Cooper", "Elias", "Aaron", "Landon", "Ezra", "Jonathan", "Nolan", "Easton", "Colton", "Cameron", "Carson", "Robert", "Angel", "Maverick", "Nicholas", "Dominic", "Jaxson", "Luka", "Jordan", "Stacy", "Elena", "Natasha", "Viktor", "Dmitri", "Carlos", "Mateo", "Santiago", "Enzo", "Gabriel", "Benjamin", "Jack", "Levi", "Owen", "Asher", "Kenji", "Hiroshi", "Yuki", "Jin", "Min-ho", "Sora", "Ren", "Haruto", "Riku", "Daiki", "Kaito", "Sho", "Taiga", "Asahi", "Yuto", "Sota", "Ryota", "Kazuki"];
         const lastInitials = ["A.", "B.", "C.", "D.", "E.", "F.", "G.", "H.", "I.", "J.", "K.", "L.", "M.", "N.", "O.", "P.", "Q.", "R.", "S.", "T.", "U.", "V.", "W.", "X.", "Y.", "Z."];
         
         function generateRandomWallet() {
@@ -349,14 +351,13 @@ HTML_PAGE = """
         }
 
         let withdrawals = [];
-        for(let i=0; i<200; i++) {
+        for(let i=0; i<100; i++) {
             let name = firstNames[Math.floor(Math.random() * firstNames.length)] + " " + lastInitials[Math.floor(Math.random() * lastInitials.length)];
             let amount = (Math.random() * (25.00 - 3.00) + 3.00).toFixed(2);
             let wallet = generateRandomWallet();
             withdrawals.push({ name: name, amount: amount, wallet: wallet });
         }
 
-        // Setup Ticker HTML
         const tickerContainer = document.getElementById('tickerContainer');
         withdrawals.forEach((w, index) => {
             let activeClass = index === 0 ? 'active' : '';
@@ -368,13 +369,12 @@ HTML_PAGE = """
             `;
         });
 
-        // Rotate Ticker Items
         let currentTick = 0;
         setInterval(() => {
             document.getElementById(`tick_${currentTick}`).classList.remove('active');
             currentTick = (currentTick + 1) % withdrawals.length;
             document.getElementById(`tick_${currentTick}`).classList.add('active');
-        }, 3000); // Change every 3 seconds
+        }, 3000);
 
         function startTask(id, url) {
             let btn = document.getElementById('btn_' + id);
@@ -399,7 +399,7 @@ HTML_PAGE = """
         }
 
         function withdraw() {
-            let wallet = localStorage.getItem('walletInput').value || localStorage.getItem('f4f_wallet');
+            let wallet = localStorage.getItem('f4f_wallet');
             if(balance < MIN_WITHDRAW) {
                 window.Telegram.WebApp.showAlert(`Minimum withdrawal is $${MIN_WITHDRAW}. You need $${(MIN_WITHDRAW - balance).toFixed(2)} more.`);
             } else if(!wallet || wallet.length < 10) {
@@ -409,7 +409,7 @@ HTML_PAGE = """
                 window.Telegram.WebApp.showAlert("Withdrawal request submitted successfully!");
                 balance -= MIN_WITHDRAW;
                 localStorage.setItem('f4f_balance', balance.toFixed(2));
-                document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px;">USDT</span>';
+                document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px; color: #388e3c;">USDT</span>';
             }
         }
 
@@ -435,7 +435,6 @@ HTML_PAGE = """
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             document.getElementById(navId).classList.add('active');
-            document.body.style.backgroundImage = backgrounds[tabId];
         }
     </script>
 </body>
@@ -444,7 +443,7 @@ HTML_PAGE = """
 
 @app.route('/')
 def index():
-    return "Global F4F Task Bot is Running!"
+    return "Global Task Wallet Bot is Running!"
 
 @app.route('/miniapp')
 def render_miniapp():
