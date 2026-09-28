@@ -293,16 +293,16 @@ HTML_PAGE = """
 
         // 📢 CHANNEL JOIN TASKS ($0.03 each) -> Yahan aap jitne chahein utne links add kar sakte hain!
         const channelJoinTasks = [
-            { id: 201, title: "Join Official Telegram Channel 1", url: "https://t.me/A_ToolsX" },
-            { id: 202, title: "Join Sub4Sub Community 2", url: "https://t.me/A_ToolsX" },
-            { id: 203, title: "Join Crypto Updates Group 3", url: "https://t.me/A_ToolsX" },
-            { id: 204, title: "Join Support Channel 4", url: "https://t.me/A_ToolsX" },
-            { id: 205, title: "Join Partner Bot 5", url: "https://t.me/A_ToolsX" },
-            { id: 6, title: "Join Channel 6", url: "https://t.me/A_ToolsX" },
-            { id: 7, title: "Join Channel 7", url: "https://t.me/A_ToolsX" },
-            { id: 8, title: "Join Channel 8", url: "https://t.me/A_ToolsX" },
-            { id: 9, title: "Join Channel 9", url: "https://t.me/A_ToolsX" },
-            { id: 10, title: "Join Channel 10", url: "https://t.me/A_ToolsX" }
+            { id: 201, title: "Join Official Telegram Channel 1", url: "https://t.me/a2zdownloader" },
+            { id: 202, title: "Join Sub4Sub Community 2", url: "https://t.me/a2zdownloader" },
+            { id: 203, title: "Join Crypto Updates Group 3", url: "https://t.me/a2zdownloader" },
+            { id: 204, title: "Join Support Channel 4", url: "https://t.me/a2zdownloader" },
+            { id: 205, title: "Join Partner Bot 5", url: "https://t.me/a2zdownloader" },
+            { id: 6, title: "Join Channel 6", url: "https://t.me/a2zdownloader" },
+            { id: 7, title: "Join Channel 7", url: "https://t.me/a2zdownloader" },
+            { id: 8, title: "Join Channel 8", url: "https://t.me/a2zdownloader" },
+            { id: 9, title: "Join Channel 9", url: "https://t.me/a2zdownloader" },
+            { id: 10, title: "Join Channel 10", url: "https://t.me/a2zdownloader" }
         ];
 
         let balance = parseFloat(localStorage.getItem('f4f_balance')) || 0.00;
