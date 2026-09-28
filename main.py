@@ -24,24 +24,21 @@ commands = [
 ]
 bot.set_my_commands(commands)
 
-@bot.message_handler(commands=['start', 'tasks', 'balance', 'daily'])
-def send_app_button(message):
-    text = f"Welcome {message.from_user.first_name}! 👋\nOpen the Mini App below to complete tasks and earn USDT 👇"
-    markup = InlineKeyboardMarkup()
-    markup.add(InlineKeyboardButton(text="🌟 Open Task Wallet", web_app=WebAppInfo(url=MINI_APP_URL)))
-    bot.send_message(message.chat.id, text, reply_markup=markup)
-
-@bot.message_handler(commands=['refer'])
-def refer_cmd(message):
-    bot.send_message(message.chat.id, f"Your Referral Link:\n`https://t.me/foll4foll_bot?start={message.from_user.id}`\n\nShare with friends and earn $0.10 USDT per referral!", parse_mode='Markdown')
-
-@bot.message_handler(commands=['promotion'])
-def promo_cmd(message):
-    bot.send_message(message.chat.id, "📢 **Paid Promotion:**\nWant to promote your Channel, Group, or Bot worldwide? Contact admin: 👉 @Loverschoice786")
-
-@bot.message_handler(commands=['help'])
-def help_cmd(message):
-    bot.send_message(message.chat.id, "📞 **Support & Help:**\nFor any assistance, contact admin: 👉 @Loverschoice786")
+@bot.message_handler(commands=['start', 'tasks', 'balance', 'daily', 'refer', 'promotion', 'help'])
+def handle_commands(message):
+    cmd = message.text.split()[0]
+    
+    if cmd == '/refer':
+        bot.send_message(message.chat.id, f"Your Referral Link:\n`https://t.me/foll4foll_bot?start={message.from_user.id}`\n\nShare with friends and earn $0.10 USDT per referral!", parse_mode='Markdown')
+    elif cmd == '/promotion':
+        bot.send_message(message.chat.id, "📢 **Paid Promotion:**\nWant to promote your Channel, Group, or Bot worldwide? Contact admin: 👉 @Loverschoice786")
+    elif cmd == '/help':
+        bot.send_message(message.chat.id, "📞 **Support & Help:**\nFor any assistance, contact admin: 👉 @Loverschoice786")
+    else:
+        text = f"Welcome {message.from_user.first_name}! 👋\nOpen the Task Wallet below to complete tasks and earn USDT 👇"
+        markup = InlineKeyboardMarkup()
+        markup.add(InlineKeyboardButton(text="🌟 Open Task Wallet", web_app=WebAppInfo(url=MINI_APP_URL)))
+        bot.send_message(message.chat.id, text, reply_markup=markup)
 
 
 # --- 2. SUB4SUB GROUP LOGIC ---
@@ -75,7 +72,7 @@ def send_ads_every_2_hours():
                 pass
 
 
-# --- 3. MINI APP WITH NUT WALLET WOOD/BLUE THEME & 100+ LIVE WITHDRAWAL TICKER ---
+# --- 3. CLEAN MINI APP CODE ---
 HTML_PAGE = """
 <!DOCTYPE html>
 <html lang="en">
@@ -97,7 +94,6 @@ HTML_PAGE = """
         .tab-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Nut Wallet Wood/Blue Theme Cards */
         .wood-card {
             background: rgba(255, 248, 220, 0.95); border: 3px solid #8B5A2B; border-radius: 18px;
             padding: 18px; margin: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25); text-align: center;
@@ -124,7 +120,6 @@ HTML_PAGE = """
             font-size: 14px; background: #fff; text-align: center;
         }
 
-        /* 100+ Live Withdrawal Ticker (Bottom to Top Scroll effect) */
         .ticker-box {
             background: rgba(44, 30, 22, 0.85); border: 2px solid #8B5A2B; border-radius: 14px;
             margin: 15px; padding: 10px 15px; text-align: left; height: 55px; overflow: hidden; position: relative;
@@ -139,7 +134,6 @@ HTML_PAGE = """
         .ticker-item.active { opacity: 1; transform: translateY(0); }
         .ticker-amount { color: #66bb6a; font-weight: bold; }
 
-        /* Nut Wallet Bottom Navigation (Wood Theme with Blue Glow) */
         .bottom-nav {
             display: flex; justify-content: space-around; background: #3e2723; border-top: 3px solid #8B5A2B;
             padding: 8px 0; border-top-left-radius: 18px; border-top-right-radius: 18px;
@@ -166,12 +160,10 @@ HTML_PAGE = """
                 </div>
             </div>
 
-            <!-- Home Banner Ad -->
             <div class="aads-container">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
 
-            <!-- 🔥 100+ Live Withdrawal Ticker (Bottom to Top) -->
             <div class="ticker-box">
                 <div class="ticker-title">⚡ Live Payouts (USDT BEP20)</div>
                 <div class="ticker-container" id="tickerContainer"></div>
@@ -180,7 +172,6 @@ HTML_PAGE = """
 
         <!-- TASKS TAB -->
         <div id="tasks-tab" class="tab-section">
-            <!-- Tasks Banner Ad (Top) -->
             <div class="aads-container" style="margin-top: 15px;">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
@@ -189,9 +180,8 @@ HTML_PAGE = """
             <div id="tasks-container"></div>
         </div>
 
-        <!-- DAILY BONUS TAB ($0.02) -->
+        <!-- DAILY BONUS TAB -->
         <div id="daily-tab" class="tab-section">
-            <!-- Daily Bonus Banner Ad (Top) -->
             <div class="aads-container" style="margin-top: 15px;">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
@@ -211,7 +201,6 @@ HTML_PAGE = """
                 <button class="btn-wood" style="width: 100%;" onclick="copyRefLink()">Copy Invite Link</button>
             </div>
             
-            <!-- Referrals Banner Ad (Bottom) -->
             <div class="aads-container">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
@@ -219,7 +208,6 @@ HTML_PAGE = """
 
         <!-- SETTINGS TAB -->
         <div id="settings-tab" class="tab-section">
-            <!-- Settings Banner Ad (Top) -->
             <div class="aads-container" style="margin-top: 15px;">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
@@ -337,7 +325,6 @@ HTML_PAGE = """
         setInterval(checkCooldowns, 10000);
         checkCooldowns();
 
-        // 🔥 100+ RANDOM WITHDRAWALS FOR TICKER
         const firstNames = ["Alex", "John", "David", "Michael", "Chris", "Emma", "Sophia", "Liam", "Noah", "Oliver", "James", "Lucas", "Ethan", "Mason", "Logan", "Alexander", "Daniel", "Henry", "Jackson", "Aiden", "Samuel", "Sebastian", "Carter", "Wyatt", "Jayden", "Grayson", "Leo", "Jaxon", "Julian", "Cooper", "Elias", "Aaron", "Landon", "Ezra", "Jonathan", "Nolan", "Easton", "Colton", "Cameron", "Carson", "Robert", "Angel", "Maverick", "Nicholas", "Dominic", "Jaxson", "Luka", "Jordan", "Stacy", "Elena", "Natasha", "Viktor", "Dmitri", "Carlos", "Mateo", "Santiago", "Enzo", "Gabriel", "Benjamin", "Jack", "Levi", "Owen", "Asher", "Kenji", "Hiroshi", "Yuki", "Jin", "Min-ho", "Sora", "Ren", "Haruto", "Riku", "Daiki", "Kaito", "Sho", "Taiga", "Asahi", "Yuto", "Sota", "Ryota", "Kazuki"];
         const lastInitials = ["A.", "B.", "C.", "D.", "E.", "F.", "G.", "H.", "I.", "J.", "K.", "L.", "M.", "N.", "O.", "P.", "Q.", "R.", "S.", "T.", "U.", "V.", "W.", "X.", "Y.", "Z."];
         
@@ -443,7 +430,7 @@ HTML_PAGE = """
 
 @app.route('/')
 def index():
-    return "Global Task Wallet Bot is Running!"
+    return "Task Wallet Bot is Running!"
 
 @app.route('/miniapp')
 def render_miniapp():
