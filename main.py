@@ -12,7 +12,7 @@ app = Flask(__name__)
 MINI_APP_URL = 'https://f4f.onrender.com/miniapp'
 active_groups = set()
 
-# --- 1. TELEGRAM SIDEBAR MENU SETUP (English & Global) ---
+# --- 1. TELEGRAM SIDEBAR MENU SETUP ---
 commands = [
     BotCommand("start", "🚀 Start & Open App"),
     BotCommand("tasks", "☑️ Complete Tasks"),
@@ -44,7 +44,7 @@ def help_cmd(message):
     bot.send_message(message.chat.id, "📞 **Support & Help:**\nFor any assistance, contact admin: 👉 @Loverschoice786")
 
 
-# --- 2. GLOBAL SUB4SUB GROUP LOGIC (English) ---
+# --- 2. SUB4SUB GROUP LOGIC ---
 @bot.message_handler(content_types=['new_chat_members'])
 def welcome_new_member(message):
     active_groups.add(message.chat.id)
@@ -75,7 +75,7 @@ def send_ads_every_2_hours():
                 pass
 
 
-# --- 3. GLOBAL MINI APP (Different Scenery & Unique Ads per Tab) ---
+# --- 3. GLOBAL MINI APP WITH LIVE WITHDRAWAL TICKER ---
 HTML_PAGE = """
 <!DOCTYPE html>
 <html lang="en">
@@ -119,6 +119,21 @@ HTML_PAGE = """
 
         input[type="text"] { width: 90%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; }
 
+        /* Live Withdrawal Ticker Box */
+        .ticker-box {
+            background: rgba(0, 0, 0, 0.65); border-radius: 12px; margin: 15px; padding: 10px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2); text-align: left; height: 60px; overflow: hidden; position: relative;
+        }
+        .ticker-title { font-size: 11px; color: #ffb74d; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
+        .ticker-container { height: 35px; overflow: hidden; position: relative; }
+        .ticker-item {
+            position: absolute; width: 100%; opacity: 0; transform: translateY(20px);
+            transition: all 0.5s ease-in-out; font-size: 13px; color: #e0e0e0;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .ticker-item.active { opacity: 1; transform: translateY(0); }
+        .ticker-amount { color: #4caf50; font-weight: bold; }
+
         .bottom-nav {
             display: flex; justify-content: space-around; background: rgba(62, 39, 35, 0.95); backdrop-filter: blur(10px);
             padding: 10px 0; border-top-left-radius: 20px; border-top-right-radius: 20px;
@@ -141,8 +156,16 @@ HTML_PAGE = """
                 <div class="balance-amount" id="balanceDisplay">0.00 <span style="font-size: 20px;">USDT</span></div>
                 <button class="task-btn" style="width: 100%; margin-top: 10px; padding: 15px;" onclick="withdraw()">Withdraw Funds (Min $3)</button>
             </div>
+
+            <!-- 🔥 LIVE WITHDRAWAL TICKER (200+ simulated payouts) -->
+            <div class="ticker-box">
+                <div class="ticker-title">⚡ Live Payouts (USDT BEP20)</div>
+                <div class="ticker-container" id="tickerContainer">
+                    <!-- Dynamic items inserted via JS -->
+                </div>
+            </div>
             
-            <!-- Home Banner Ad (Bottom of Withdraw) -->
+            <!-- Home Banner Ad -->
             <div class="aads-container">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
@@ -150,7 +173,6 @@ HTML_PAGE = """
 
         <!-- TASKS TAB -->
         <div id="tasks-tab" class="tab-section">
-            <!-- Tasks Banner Ad (Top) -->
             <div class="aads-container" style="margin-top: 15px;">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
@@ -161,7 +183,6 @@ HTML_PAGE = """
 
         <!-- DAILY BONUS TAB ($0.02) -->
         <div id="daily-tab" class="tab-section">
-            <!-- Daily Bonus Banner Ad (Top) -->
             <div class="aads-container" style="margin-top: 15px;">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
@@ -181,7 +202,6 @@ HTML_PAGE = """
                 <button class="task-btn" style="width: 100%;" onclick="copyRefLink()">Copy Invite Link</button>
             </div>
             
-            <!-- Referrals Banner Ad (Bottom) -->
             <div class="aads-container">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
@@ -189,7 +209,6 @@ HTML_PAGE = """
 
         <!-- SETTINGS TAB -->
         <div id="settings-tab" class="tab-section">
-            <!-- Settings Banner Ad (Top) -->
             <div class="aads-container" style="margin-top: 15px;">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
@@ -231,19 +250,18 @@ HTML_PAGE = """
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
 
-        // 🖼️ UNIQUE WORLDWIDE SCENERY BACKGROUNDS PER TAB
         const backgrounds = {
-            'home-tab': 'url("https://images.unsplash.com/photo-1502602898657-3e91760cbb34?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80")', // Paris Eiffel Tower
-            'tasks-tab': 'url("https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80")', // Yosemite Valley
-            'daily-tab': 'url("https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80")', // Starry Alps Night
-            'referrals-tab': 'url("https://images.unsplash.com/photo-1533105079780-92b9be482077?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80")', // Amalfi Coast Italy
-            'settings-tab': 'url("https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80")' // Kyoto Bamboo Forest
+            'home-tab': 'url("https://images.unsplash.com/photo-1502602898657-3e91760cbb34?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80")',
+            'tasks-tab': 'url("https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80")',
+            'daily-tab': 'url("https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80")',
+            'referrals-tab': 'url("https://images.unsplash.com/photo-1533105079780-92b9be482077?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80")',
+            'settings-tab': 'url("https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80")'
         };
         document.body.style.backgroundImage = backgrounds['home-tab'];
 
         const REWARD = 0.05;
         const MIN_WITHDRAW = 3.00;
-        const COOLDOWN_MS = 2 * 60 * 60 * 1000; // 2 hours
+        const COOLDOWN_MS = 2 * 60 * 60 * 1000;
         
         const ADSTERRA_LINK = "https://www.profitableratecpmnetwork.com/de868ezg?key=8b85fb3adea19f8ec85c709bba7de919";
         const MONETAG_LINK = "https://omg10.com/4/11851710";
@@ -267,7 +285,6 @@ HTML_PAGE = """
             document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px;">USDT</span>';
         }
 
-        // Render Tasks
         const tasksContainer = document.getElementById('tasks-container');
         tasksData.forEach(task => {
             tasksContainer.innerHTML += `
@@ -300,7 +317,6 @@ HTML_PAGE = """
                 }
             });
 
-            // Check Daily Bonus cooldown (24 hours)
             let lastDaily = localStorage.getItem('last_daily_claim');
             let dailyBtn = document.getElementById('dailyBtn');
             if (lastDaily) {
@@ -318,6 +334,47 @@ HTML_PAGE = """
         }
         setInterval(checkCooldowns, 10000);
         checkCooldowns();
+
+        // 🔥 GENERATE 200+ RANDOM WITHDRAWALS FOR TICKER
+        const firstNames = ["Alex", "John", "David", "Michael", "Chris", "Emma", "Sophia", "Liam", "Noah", "Oliver", "James", "Lucas", "Ethan", "Mason", "Logan", "Alexander", "Daniel", "Henry", "Jackson", "Aiden", "Samuel", "Sebastian", "David", "Carter", "Wyatt", "Jayden", "John", "Grayson", "Leo", "Jaxon", "Julian", "Cooper", "Elias", "Aaron", "Landon", "Ezra", "Jonathan", "Nolan", "Jeremiah", "Easton", "Elias", "Colton", "Cameron", "Carson", "Robert", "Angel", "Maverick", "Nicholas", "Dominic", "Jaxson", "Luka", "Jordan", "Stacy", "Elena", "Natasha", "Viktor", "Dmitri", "Carlos", "Mateo", "Santiago", "Leonardo", "Enzo", "Gabriel", "Samuel", "Benjamin", "Lucas", "Mason", "Logan", "Alexander", "Ethan", "Oliver", "Elijah", "Noah", "Liam", "James", "William", "Benjamin", "Lucas", "Henry", "Theodore", "Jack", "Levi", "Alexander", "Owen", "Mateo", "Asher", "Samuel", "Ethan", "Leo", "習慣", "Kenji", "Hiroshi", "Yuki", "Jin", "Min-ho", "Sora", "Ren", "Haruto", "Riku", "Daiki", "Tatsuya", "Kaito", "Sho", "Taiga", "Asahi", "Yuto", "Sota", "Ryota", "Kazuki"];
+        const lastInitials = ["A.", "B.", "C.", "D.", "E.", "F.", "G.", "H.", "I.", "J.", "K.", "L.", "M.", "N.", "O.", "P.", "Q.", "R.", "S.", "T.", "U.", "V.", "W.", "X.", "Y.", "Z."];
+        
+        function generateRandomWallet() {
+            const chars = "0123456789abcdef";
+            let addr = "0x";
+            for(let i=0; i<40; i++) {
+                addr += chars[Math.floor(Math.random() * chars.length)];
+            }
+            return addr.substring(0, 6) + "..." + addr.substring(38);
+        }
+
+        let withdrawals = [];
+        for(let i=0; i<200; i++) {
+            let name = firstNames[Math.floor(Math.random() * firstNames.length)] + " " + lastInitials[Math.floor(Math.random() * lastInitials.length)];
+            let amount = (Math.random() * (25.00 - 3.00) + 3.00).toFixed(2);
+            let wallet = generateRandomWallet();
+            withdrawals.push({ name: name, amount: amount, wallet: wallet });
+        }
+
+        // Setup Ticker HTML
+        const tickerContainer = document.getElementById('tickerContainer');
+        withdrawals.forEach((w, index) => {
+            let activeClass = index === 0 ? 'active' : '';
+            tickerContainer.innerHTML += `
+                <div class="ticker-item ${activeClass}" id="tick_${index}">
+                    <span>👤 <b>${w.name}</b> (${w.wallet})</span>
+                    <span class="ticker-amount">+$${w.amount} USDT</span>
+                </div>
+            `;
+        });
+
+        // Rotate Ticker Items
+        let currentTick = 0;
+        setInterval(() => {
+            document.getElementById(`tick_${currentTick}`).classList.remove('active');
+            currentTick = (currentTick + 1) % withdrawals.length;
+            document.getElementById(`tick_${currentTick}`).classList.add('active');
+        }, 3000); // Change every 3 seconds
 
         function startTask(id, url) {
             let btn = document.getElementById('btn_' + id);
@@ -342,7 +399,7 @@ HTML_PAGE = """
         }
 
         function withdraw() {
-            let wallet = localStorage.getItem('f4f_wallet');
+            let wallet = localStorage.getItem('walletInput').value || localStorage.getItem('f4f_wallet');
             if(balance < MIN_WITHDRAW) {
                 window.Telegram.WebApp.showAlert(`Minimum withdrawal is $${MIN_WITHDRAW}. You need $${(MIN_WITHDRAW - balance).toFixed(2)} more.`);
             } else if(!wallet || wallet.length < 10) {
