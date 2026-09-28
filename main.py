@@ -72,21 +72,28 @@ def send_ads_every_2_hours():
                 pass
 
 
-# --- 3. EXACT AUTHENTIC NUT WALLET WOODEN THEME MINI APP ---
+# --- 3. EXACT NUT WALLET MINI APP WITH MATCHING BACKGROUND ---
 HTML_PAGE = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nut Wallet</title>
+    <title>Nut Wallet - Task & Earn USDT</title>
     
+    <!-- Telegram Link Preview Meta Tags -->
+    <meta property="og:title" content="Nut Wallet - Earn Free USDT on Telegram">
+    <meta property="og:description" content="Complete simple tasks, claim daily $0.02 bonus, invite friends and earn $0.10 USDT per referral instantly!">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
+    <meta property="og:url" content="https://f4f.onrender.com/miniapp">
+    <meta property="og:type" content="website">
+
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <style>
         body {
             margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Exact Nut Wallet Nature Forest & Sunlight Background */
+            /* Exact Nature Forest & Mountains Background from Screenshot */
             background: url('https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') no-repeat center center fixed;
             background-size: cover; color: #3e2723; display: flex; flex-direction: column; height: 100vh; overflow: hidden;
         }
@@ -95,12 +102,10 @@ HTML_PAGE = """
         .tab-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Authentic Nut Wallet Wooden Board Card */
         .nut-wood-card {
             background: linear-gradient(135deg, #f5d6b0 0%, #d4a373 100%);
             border: 4px solid #5c3a21; border-radius: 24px;
             padding: 20px; margin: 15px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); text-align: center;
-            position: relative;
         }
         .balance-amount { font-size: 38px; font-weight: bold; margin: 6px 0; color: #1b4d3e; text-shadow: 1px 1px 0px rgba(255,255,255,0.4); }
         
@@ -124,7 +129,6 @@ HTML_PAGE = """
             font-size: 14px; background: #fffdf9; text-align: center; color: #3e2723; font-weight: bold;
         }
 
-        /* Live Withdrawal Ticker Wood Box */
         .ticker-box {
             background: rgba(62, 39, 35, 0.92); border: 3px solid #5c3a21; border-radius: 16px;
             margin: 15px; padding: 10px 15px; text-align: left; height: 55px; overflow: hidden; position: relative;
@@ -140,7 +144,6 @@ HTML_PAGE = """
         .ticker-item.active { opacity: 1; transform: translateY(0); }
         .ticker-amount { color: #a3cef1; font-weight: bold; }
 
-        /* Nut Wallet Wooden Bottom Navigation Bar */
         .bottom-nav {
             display: flex; justify-content: space-around; background: #3b2219; border-top: 4px solid #5c3a21;
             padding: 8px 0; border-top-left-radius: 20px; border-top-right-radius: 20px;
@@ -168,12 +171,10 @@ HTML_PAGE = """
                 </div>
             </div>
 
-            <!-- Home Banner Ad -->
             <div class="aads-container">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
             </div>
 
-            <!-- 100+ Live Withdrawal Ticker -->
             <div class="ticker-box">
                 <div class="ticker-title">⚡ Live Payouts (USDT BEP20)</div>
                 <div class="ticker-container" id="tickerContainer"></div>
