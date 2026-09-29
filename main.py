@@ -1,11 +1,17 @@
-import telebot
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, BotCommand, WebAppInfo
-import threading
 import os
+import threading
 import time
 from flask import Flask, render_template_string
+import telebot
+from telebot.types import (
+    BotCommand,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    WebAppInfo,
+)
 
-TOKEN = '8918880403:AAFTytt-7UWXIJQLm1yDCVP-NoNVM0aJ6QQ'
+# Railway ke environment variable se token lene ke liye
+TOKEN = os.environ.get('TOKEN', '')
 bot = telebot.TeleBot(TOKEN)
 app = Flask(__name__)
 
@@ -14,63 +20,116 @@ active_groups = set()
 
 # --- 1. TELEGRAM SIDEBAR MENU SETUP ---
 commands = [
-    BotCommand("start", "🚀 Start & Open App"),
-    BotCommand("tasks", "☑️ Complete Tasks ($0.05)"),
-    BotCommand("jointasks", "📢 Join Channels ($0.03)"),
-    BotCommand("daily", "🎁 Daily Bonus ($0.02)"),
-    BotCommand("balance", "💰 Check Balance"),
-    BotCommand("refer", "👥 Invite Friends"),
-    BotCommand("promotion", "📢 Paid Promotion"),
-    BotCommand("help", "📞 Support / Help")
+    BotCommand('start', '🚀 Start & Open App'),
+    BotCommand('tasks', '☑️ Complete Tasks ($0.05)'),
+    BotCommand('jointasks', '📢 Join Channels ($0.03)'),
+    BotCommand('daily', '🎁 Daily Bonus ($0.02)'),
+    BotCommand('balance', '💰 Check Balance'),
+    BotCommand('refer', '👥 Invite Friends'),
+    BotCommand('promotion', '📢 Paid Promotion'),
+    BotCommand('help', '📞 Support / Help'),
 ]
-bot.set_my_commands(commands)
+try:
+  bot.set_my_commands(commands)
+except Exception as e:
+  print(f'Commands set karne mein error: {e}')
 
-@bot.message_handler(commands=['start', 'tasks', 'jointasks', 'balance', 'daily', 'refer', 'promotion', 'help'])
+
+@bot.message_handler(
+    commands=[
+        'start',
+        'tasks',
+        'jointasks',
+        'balance',
+        'daily',
+        'refer',
+        'promotion',
+        'help',
+    ]
+)
 def handle_commands(message):
-    cmd = message.text.split()[0]
-    
-    if cmd == '/refer':
-        bot.send_message(message.chat.id, f"Your Referral Link:\n`https://t.me/foll4foll_bot?start={message.from_user.id}`\n\nShare with friends and earn $0.10 USDT per referral!", parse_mode='Markdown')
-    elif cmd == '/promotion':
-        bot.send_message(message.chat.id, "📢 **Paid Promotion:**\nWant to promote your Channel, Group, or Bot worldwide? Contact admin: 👉 @Loverschoice786")
-    elif cmd == '/help':
-        bot.send_message(message.chat.id, "📞 **Support & Help:**\nFor any assistance, contact admin: 👉 @Loverschoice786")
-    else:
-        text = f"Welcome {message.from_user.first_name}! 👋\nOpen the Nut Wallet below to complete tasks, join channels, and earn USDT 👇"
-        markup = InlineKeyboardMarkup()
-        markup.add(InlineKeyboardButton(text="🌰 Open Nut Wallet", web_app=WebAppInfo(url=MINI_APP_URL)))
-        bot.send_message(message.chat.id, text, reply_markup=markup)
+  cmd = message.text.split()[0]
+
+  if cmd == '/refer':
+    bot.send_message(
+        message.chat.id,
+        f'Your Referral Link:\n`https://t.me/foll4foll_bot?start={message.from_user.id}`\n\nShare'
+        ' with friends and earn $0.10 USDT per referral!',
+        parse_mode='Markdown',
+    )
+  elif cmd == '/promotion':
+    bot.send_message(
+        message.chat.id,
+        '📢 **Paid Promotion:**\nWant to promote your Channel, Group, or Bot'
+        ' worldwide? Contact admin: 👉 @Loverschoice786',
+    )
+  elif cmd == '/help':
+    bot.send_message(
+        message.chat.id,
+        '📞 **Support & Help:**\nFor any assistance, contact admin: 👉'
+        ' @Loverschoice786',
+    )
+  else:
+    text = (
+        f'Welcome {message.from_user.first_name}! 👋\nOpen the Nut Wallet below'
+        ' to complete tasks, join channels, and earn USDT 👇'
+    )
+    markup = InlineKeyboardMarkup()
+    markup.add(
+        InlineKeyboardButton(
+            text='🌰 Open Nut Wallet', web_app=WebAppInfo(url=MINI_APP_URL)
+        )
+    )
+    bot.send_message(message.chat.id, text, reply_markup=markup)
 
 
 # --- 2. SUB4SUB GROUP LOGIC ---
 @bot.message_handler(content_types=['new_chat_members'])
 def welcome_new_member(message):
-    active_groups.add(message.chat.id)
-    for new_member in message.new_chat_members:
-        if new_member.id == bot.get_me().id:
-            continue
-            
-        user_name = new_member.first_name
-        text = f"Welcome {user_name}! 👋\n\n"
-        text += "🔥 **Group Rules (Sub4Sub):**\n"
-        text += "Check the online members list, send a DM to users who are online, and ask: 'Join my channel and I will join yours'.\n\n"
-        text += "💰 **Earn Free USDT:**\nClick the button below to complete tasks and earn rewards 👇"
-        
-        markup = InlineKeyboardMarkup()
-        markup.add(InlineKeyboardButton(text="🌟 Earn Free USDT", web_app=WebAppInfo(url=MINI_APP_URL)))
-        bot.send_message(message.chat.id, text, reply_markup=markup)
+  active_groups.add(message.chat.id)
+  for new_member in message.new_chat_members:
+    try:
+      if new_member.id == bot.get_me().id:
+        continue
+    except Exception:
+      pass
+
+    user_name = new_member.first_name
+    text = f'Welcome {user_name}! 👋\n\n'
+    text += '🔥 **Group Rules (Sub4Sub):**\n'
+    text += (
+        'Check the online members list, send a DM to users who are online, and'
+        " ask: 'Join my channel and I will join yours'.\n\n"
+    )
+    text += '💰 **Earn Free USDT:**\nClick the button below to complete tasks and earn rewards 👇'
+
+    markup = InlineKeyboardMarkup()
+    markup.add(
+        InlineKeyboardButton(
+            text='🌟 Earn Free USDT', web_app=WebAppInfo(url=MINI_APP_URL)
+        )
+    )
+    bot.send_message(message.chat.id, text, reply_markup=markup)
+
 
 def send_ads_every_2_hours():
-    while True:
-        time.sleep(7200)
-        ad_text = "📢 **Sponsored Global Tasks:**\n\nEarn free USDT without any investment. Open Nut Wallet now 👇"
-        markup = InlineKeyboardMarkup()
-        markup.add(InlineKeyboardButton(text="💰 Watch Ads & Earn", web_app=WebAppInfo(url=MINI_APP_URL)))
-        for chat_id in active_groups.copy():
-            try:
-                bot.send_message(chat_id, ad_text, reply_markup=markup)
-            except Exception:
-                pass
+  while True:
+    time.sleep(7200)
+    ad_text = (
+        '📢 **Sponsored Global Tasks:**\n\nEarn free USDT without any'
+        ' investment. Open Nut Wallet now 👇'
+    )
+    markup = InlineKeyboardMarkup()
+    markup.add(
+        InlineKeyboardButton(
+            text='💰 Watch Ads & Earn', web_app=WebAppInfo(url=MINI_APP_URL)
+        )
+    )
+    for chat_id in active_groups.copy():
+      try:
+        bot.send_message(chat_id, ad_text, reply_markup=markup)
+      except Exception:
+        pass
 
 
 # --- 3. MINI APP WITH ANTI-CHEAT & CLEAN JOIN SYSTEM ---
@@ -193,7 +252,7 @@ HTML_PAGE = """
             <div id="tasks-container"></div>
         </div>
 
-        <!-- CHANNEL JOIN TASKS TAB ($0.03) - Anti-Cheat & Clean Link System -->
+        <!-- CHANNEL JOIN TASKS TAB ($0.03) -->
         <div id="join-tab" class="tab-section">
             <div class="aads-container" style="margin-top: 15px;">
               <iframe data-aa='2456598' src='//acceptable.a-ads.com/2456598/?size=Adaptive' style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'></iframe>
@@ -282,8 +341,6 @@ HTML_PAGE = """
         
         const ADSTERRA_LINK = "https://www.profitableratecpmnetwork.com/de868ezg?key=8b85fb3adea19f8ec85c709bba7de919";
         const MONETAG_LINK = "https://omg10.com/4/11851710";
-        
-        // 🔗 Yahan aap apna wahi ek main link daal sakte hain jo sabhi join tasks par open hoga
         const MAIN_JOIN_URL = "https://t.me/a2zdownloader";
 
         const tasksData = [
@@ -293,7 +350,6 @@ HTML_PAGE = """
             { id: 4, title: "High Yield Ad 2", url: MONETAG_LINK }
         ];
 
-        // 📢 Clean Join Tasks List (Aap jitne chahein utne slots rakh sakte hain, sabhi par MAIN_JOIN_URL khulega)
         const channelJoinTasks = [
             { id: 1, title: "Join Official Channel Slot 1" },
             { id: 2, title: "Join Community Group Slot 2" },
@@ -317,7 +373,6 @@ HTML_PAGE = """
             document.getElementById('balanceDisplay').innerHTML = balance.toFixed(2) + ' <span style="font-size: 20px; color: #2d6a4f;">USDT</span>';
         }
 
-        // Render Watch Tasks
         const tasksContainer = document.getElementById('tasks-container');
         tasksData.forEach(task => {
             tasksContainer.innerHTML += `
@@ -331,7 +386,6 @@ HTML_PAGE = """
             `;
         });
 
-        // Render Clean Join Tasks with Anti-Cheat
         const joinContainer = document.getElementById('join-tasks-container');
         channelJoinTasks.forEach(jTask => {
             let isCompleted = localStorage.getItem('jointask_' + jTask.id) === 'completed';
@@ -354,10 +408,8 @@ HTML_PAGE = """
             btn.disabled = true;
             btn.innerText = "Verify (5s)...";
             
-            // Open the main join link
             window.open(MAIN_JOIN_URL, '_blank');
 
-            // Anti-cheat timer: User ko 5 second wait karna padega taaki cheat na ho sake
             let timeLeft = 5;
             let timer = setInterval(() => {
                 timeLeft--;
@@ -513,19 +565,26 @@ HTML_PAGE = """
 </html>
 """
 
+
 @app.route('/')
 def index():
-    return "Nut Wallet Bot is Running!"
+  return 'Nut Wallet Bot is Running!'
+
 
 @app.route('/miniapp')
 def render_miniapp():
-    return render_template_string(HTML_PAGE)
+  return render_template_string(HTML_PAGE)
+
 
 def run_bot():
-    bot.polling(none_stop=True)
+  bot.infinity_polling(none_stop=True)
 
-if __name__ == "__main__":
-    threading.Thread(target=run_bot, daemon=True).start()
-    threading.Thread(target=send_ads_every_2_hours, daemon=True).start()
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host="0.0.0.0", port=port)
+
+if __name__ == '__main__':
+  # Bot aur Ads ko background thread mein chalu karna
+  threading.Thread(target=run_bot, daemon=True).start()
+  threading.Thread(target=send_ads_every_2_hours, daemon=True).start()
+
+  # Railway ke port par Flask server run karna
+  port = int(os.environ.get('PORT', 8080))
+  app.run(host='0.0.0.0', port=port)
