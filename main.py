@@ -15,7 +15,7 @@ TOKEN = os.environ.get('TOKEN', '')
 bot = telebot.TeleBot(TOKEN)
 app = Flask(__name__)
 
-MINI_APP_URL = 'https://f4f.onrender.com/miniapp'
+MINI_APP_URL = 'https://f4f-production-0321.up.railway.app/'
 active_groups = set()
 
 # --- 1. TELEGRAM SIDEBAR MENU SETUP ---
@@ -144,7 +144,7 @@ HTML_PAGE = """
     <meta property="og:title" content="Nut Wallet - Earn Free USDT on Telegram">
     <meta property="og:description" content="Complete simple tasks, join channels for $0.03, claim daily $0.02 bonus, and earn $0.10 USDT per referral!">
     <meta property="og:image" content="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
-    <meta property="og:url" content="https://f4f.onrender.com/miniapp">
+    <meta property="og:url" content="https://f4f-production-0321.up.railway.app/">
     <meta property="og:type" content="website">
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
