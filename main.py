@@ -15,7 +15,7 @@ TOKEN = os.environ.get('TOKEN', '')
 bot = telebot.TeleBot(TOKEN)
 app = Flask(__name__)
 
-MINI_APP_URL = 'https://f4f-production-0321.up.railway.app/miniapp/'
+MINI_APP_URL = 'https://f4f-production-0321.up.railway.app/miniapp'
 active_groups = set()
 
 # --- 1. TELEGRAM SIDEBAR MENU SETUP ---
