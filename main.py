@@ -77,7 +77,7 @@ def handle_commands(message):
     markup = InlineKeyboardMarkup()
     markup.add(
         InlineKeyboardButton(
-            text='🌰 Open Nut Wallet', web_app=WebAppInfo(url=MINI_APP_URL)
+            text='🌰 Open Nut Wallet', web_app=WebAppInfo(url='https://f4f-production-0321.up.railway.app')
         )
     )
     bot.send_message(message.chat.id, text, reply_markup=markup)
@@ -106,7 +106,7 @@ def welcome_new_member(message):
     markup = InlineKeyboardMarkup()
     markup.add(
         InlineKeyboardButton(
-            text='🌟 Earn Free USDT', web_app=WebAppInfo(url=MINI_APP_URL)
+            text='🌟 Earn Free USDT', web_app=WebAppInfo(url='https://f4f-production-0321.up.railway.app')
         )
     )
     bot.send_message(message.chat.id, text, reply_markup=markup)
@@ -122,7 +122,7 @@ def send_ads_every_2_hours():
     markup = InlineKeyboardMarkup()
     markup.add(
         InlineKeyboardButton(
-            text='💰 Watch Ads & Earn', web_app=WebAppInfo(url=MINI_APP_URL)
+            text='💰 Watch Ads & Earn', web_app=WebAppInfo(url='https://f4f-production-0321.up.railway.app')
         )
     )
     for chat_id in active_groups.copy():
